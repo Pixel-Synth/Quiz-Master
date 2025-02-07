@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster - Test Your Knowledge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #007bff;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+        }
+        .container {
+            padding: 50px 20px;
+        }
+        .start-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 20px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .categories {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .category {
+            position: relative;
+            display: inline-block;
+            padding: 15px;
+            background: #ffc107;
+            color: black;
+            border-radius: 5px;
+            cursor: pointer;
+            min-width: 150px;
+            text-align: center;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #ffdd57;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .dropdown div {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #e0b600;
+        }
+        .dropdown div:last-child {
+            border-bottom: none;
+        }
+        .dropdown div:hover {
+            background: #e0b600;
+        }
+        .category:hover .dropdown {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>Welcome to QuizMaster</header>
+    <div class="container">
+        <h1>Test Your Knowledge!</h1>
+        <p>Choose a category and start quizzing.</p>
+        <a href="#" class="start-btn">Start Quiz</a>
+        <div class="categories">
+            <div class="category">Science
+                <div class="dropdown">
+                    <div>Physics</div>
+                    <div>Chemistry</div>
+                    <div>Biology</div>
+                </div>
+            </div>
+            <div class="category">History
+                <div class="dropdown">
+                    <div>Ancient</div>
+                    <div>Medieval</div>
+                    <div>Modern</div>
+                </div>
+            </div>
+            <div class="category">Math
+                <div class="dropdown">
+                    <div>Algebra</div>
+                    <div>Geometry</div>
+                    <div>Calculus</div>
+                </div>
+            </div>
+            <div class="category">Technology
+                <div class="dropdown">
+                    <div>AI</div>
+                    <div>Programming</div>
+                    <div>Cybersecurity</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
