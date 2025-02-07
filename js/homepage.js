@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     categories.forEach(category => {
         category.addEventListener("click", function () {
             selectedCategory = this.innerText;
-            document.getElementById("fill").innerHTML = ("You selected: " + selectedCategory);
+            subject = this.parentElement.parentElement.innerHTML;
+            document.getElementById("fill").innerHTML = ("You selected: " + subject + " - " + selectedCategory);
         });
     });
 
