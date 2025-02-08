@@ -118,3 +118,7 @@ body{
 .eye{
     cursor: pointer;
 }
+
+.eye:hover{
+    color: black;
+}
