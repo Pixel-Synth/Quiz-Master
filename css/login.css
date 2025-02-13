@@ -114,3 +114,11 @@ body{
 .register-link p a:hover{
     text-decoration: underline;
 }
+
+.eye{
+    cursor: pointer;
+}
+
+.eye:hover{
+    color: black;
+}
