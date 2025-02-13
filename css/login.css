@@ -142,3 +142,7 @@ canvas {
 .social-login a:hover {
     transform: scale(1.2);
 }
+
+.eye{
+    cursor: pointer;
+}
