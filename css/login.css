@@ -12,7 +12,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url("https://t4.ftcdn.net/jpg/02/40/63/55/360_F_240635575_EJifwRAbKsVTDnA3QE0bCsWG5TLhUNEZ.jpg") center/cover no-repeat;
+    background: none !important;
 }
 
 .wrapper{
@@ -115,10 +115,30 @@ body{
     text-decoration: underline;
 }
 
-.eye{
-    cursor: pointer;
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Prevents interaction issues */
 }
 
-.eye:hover{
-    color: black;
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px; /* Added margin to prevent overlap */
+}
+
+.social-login a {
+    color: white;
+    font-size: 24px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.social-login a:hover {
+    transform: scale(1.2);
 }
