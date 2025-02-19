@@ -1,3 +1,6 @@
+let selectedCategory = "";
+let subject = "";
+
 document.addEventListener("DOMContentLoaded", function () {
     const header = document.querySelector("header");
     const title = document.querySelector("h1");
@@ -41,17 +44,22 @@ document.addEventListener("DOMContentLoaded", function () {
     categories.forEach(category => {
         category.addEventListener("click", function () {
             selectedCategory = this.innerText;
-            subject = this.parentElement.parentElement.innerHTML;
+            //subject = this.parentElement.parentElement.innerHTML;
+            subject = this.closest('.category').innerText.split('\n')[0];
             document.getElementById("fill").innerHTML = ("You selected: " + subject + " - " + selectedCategory);
         });
     });
 
     document.getElementById("start-button").addEventListener("click", function (event) {
-        if (selectedCategory === "") {
+        if (!selectedCategory) {
             event.preventDefault();
             document.getElementById("fill").innerHTML = ("Please select a topic before starting the quiz!");
-        } else {
+        } /*else {
             alert("Starting quiz on: " + selectedCategory);
+        }*/
+        else {
+            const url = `quiz.html?subject=${encodeURIComponent(subject)}&topic=${encodeURIComponent(selectedCategory)}`;
+            window.location.href = url;
         }
     });
 });
