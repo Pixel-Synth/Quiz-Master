@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let selectedQuestions = questions[subject]?.[topic] || [];
 
     if (!selectedQuestions.length) {
-        questionContainer.innerHTML = `<p style="color: red;">No questions available for ${subject} - ${topic}.</p>`;
+        questionContainer.innerHTML = `<p style="color: black;">No questions available for ${subject} - ${topic}.</p>`;
         nextButton.style.display = "none";
         return;
     }
