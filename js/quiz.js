@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (currentQuestionIndex < selectedQuestions.length) {
             displayQuestion();
         } else {
-            questionContainer.innerHTML = `<p style="color: green;">Quiz Completed! 🎉</p>`;
+            questionContainer.innerHTML = `<p style="color: white;">Quiz Completed! 🎉</p>`;
             nextButton.style.display = "none";
         }
     });
@@ -55,9 +55,24 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".option").forEach(button => {
             button.addEventListener("click", function () {
                 if (this.innerText === q.answer) {
-                    alert("Correct! 🎉");
+                    this.style.backgroundColor = "green";
+                    buttons = document.querySelectorAll(".option");
+                    buttons.forEach(button => {
+                        if (button.innerText !== q.answer) {
+                            button.disabled = true;
+                        }
+                    });
                 } else {
-                    alert("Wrong answer! ❌");
+                    this.style.backgroundColor = "red";
+                    buttons = document.querySelectorAll(".option");
+                    buttons.forEach(button => {
+                        if (button != this) {
+                            button.disabled = true;
+                        }
+                        if (button.innerText === q.answer) {
+                            button.style.backgroundColor = "green";
+                        }
+                    });
                 }
             });
         });

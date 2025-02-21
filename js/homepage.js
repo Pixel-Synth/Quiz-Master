@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
         description.classList.remove("hidden");
         description.classList.add("fade-in");
-    }, 2000); 
+    }, 1000); 
 
     setTimeout(() => {
         categoriesforcss.forEach((category, index) => {
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
             startButton.classList.remove("hidden");
             startButton.classList.add("drop-in");
         }, categoriesforcss.length * 300 + 500); 
-    }, 3500); 
+    }, 2000); 
 
     categories.forEach(category => {
         category.addEventListener("click", function () {
