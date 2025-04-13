@@ -138,18 +138,27 @@
 
 <body>
     <div class="wrapper">
-        <form id="Login" action="{{url_for('homepage')}}" method="get">
+        <form id="Login" action="{{url_for('home')}}" method="post">
             <h1>Login to Quiz Master</h1>
+            {% if success %}
+                <p style="color: green; font-weight: bold; text-align: center;">Successfully Registered! You can login now</p>
+            {% endif %}
+            {% if error %}
+                <p style="color: red; font-weight: bold; text-align: center;">Username and Password do not match!</p>
+            {% endif %}
             <div class="input-box">
-                <input type="text" placeholder="Username" required>
+                <input type="text" name="username" placeholder="Username" required value="{{username | default('')}}">
+                {% if usernameError %}
+                    <p style="color: red; font-weight: bold; text-align: center;">Username does not exist!</p>
+                {% endif %}
                 <i class="bi bi-person-circle"></i>
             </div>
             <div class="input-box">
-                <input class="password" type="password" placeholder="Password" required>
+                <input class="password" type="password" name="password"  placeholder="Password" required>
                 <i class="bi bi-eye-slash eye"></i>
             </div>
             <div class="remember-forgot">
-                <label for="remember"><input type="checkbox" id="remember"> Remember me</label>
+                <label for="remember"><input type="checkbox" name="remember"> Remember me</label>
                 <a href="#">Forgot password?</a>
             </div>
             <button type="submit" class="button">Login</button>

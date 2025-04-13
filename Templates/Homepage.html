@@ -12,7 +12,13 @@
         <link rel="icon" href="{{url_for('static',filename='icons/house-door-fill.svg')}}" type="image/x-icon">
     </head>
     <body>
-        <header>Welcome to Quiz Master</header>
+        <header>Welcome to Quiz Master 
+            {% if name %}
+                , {{ name }}!
+            {% else %}
+                , Guest!
+            {% endif %}
+        </header>
         <div class="container">
             <div class="vertical-center">
                 <h1>Test your knowledge in your desired subject!</h1>

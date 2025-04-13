@@ -1,12 +1,56 @@
-from flask import Flask, render_template, request
-app = Flask(__name__)
-
+import sqlite3
+from flask import Flask, render_template, request, session
+from model import db, User
+app = Flask(__name__, instance_relative_config=True)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.secret_key="pixelSynth"
+db.init_app(app)
+with app.app_context():
+    db.create_all()
 @app.route('/',methods=['GET', 'POST'])
 def home():
+    if request.method == 'POST':
+        print(request.form)
+        username = request.form.get('username')
+        password = request.form.get('password')
+        remember = request.form.get('remember')
+        user = User.query.filter((User.username == username) & (User.password == password)).first()
+        if user:
+            session['username'] = username
+            if remember:
+                session.permanent = True
+                app.permanent_session_lifetime = timedelta(days=7)
+            else:
+                session.permanent = False
+            return render_template('homepage.html', name=username)
+        else:
+            return render_template('index.html', error=True, username=username, password=password)
+    if 'username' in session:
+        username = session['username']
+        return render_template('homepage.html', name=username)
     return render_template('index.html')
 
-@app.route('/register')
+@app.route('/register',methods=['GET', 'POST'])
 def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        mail = request.form['mail']
+        password = request.form['password']
+        name = request.form['name']
+        confirm_password = request.form['confirm_password']
+        existing_user = User.query.filter((User.username == username)).first()
+        existing_mail = User.query.filter(User.mail == mail).first()
+        if existing_user:
+            return render_template('register.html', userError=True, username=username, mail=mail, password=password, name=name, confirm_password=confirm_password)
+        if existing_mail:
+            return render_template('register.html', mailError=True, username=username, mail=mail, password=password, name=name, confirm_password=confirm_password)
+        if password != confirm_password:
+            return render_template('register.html', passError=True, username=username, mail=mail, password=password, name=name, confirm_password=confirm_password)
+        new_user = User(username=username, mail=mail, password=password, name=name.capitalize())
+        db.session.add(new_user)
+        db.session.commit()
+        
+        return render_template('index.html', success=True)
     return render_template('register.html')
 
 @app.route('/homepage')
