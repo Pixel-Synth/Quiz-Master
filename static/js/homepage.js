@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Starting quiz on: " + selectedCategory);
         }*/
         else {
-            const url = `quiz.html?subject=${encodeURIComponent(subject)}&topic=${encodeURIComponent(selectedCategory)}`;
+            const url = `${quizURL}?subject=${encodeURIComponent(subject)}&topic=${encodeURIComponent(selectedCategory)}`;
             window.location.href = url;
         }
     });

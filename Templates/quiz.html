@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Page</title>
-    <link rel="stylesheet" href="../css/quiz.css">
-    <script src="../js/quiz.js" defer></script>
-    <link rel="stylesheet" href="../css/quiz.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/pass-toggle.js') }}">
+    <script src="{{ url_for('static', filename='js/quiz.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
 </head>
 <body>
     <header>Quiz Time!</header>
