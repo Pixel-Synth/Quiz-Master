@@ -1,8 +1,8 @@
 import sqlite3
 from datetime import timedelta
-from flask import Flask, render_template,redirect,url_for, request, session
+from flask import Flask, render_template,redirect,url_for, request, session, jsonify
 from email_validator import validate_email,EmailNotValidError
-from model import db, User
+from model import db, User, Subject, Topic, Question, Score
 app = Flask(__name__, instance_relative_config=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.secret_key="pixelSynth"
@@ -10,8 +10,6 @@ db.init_app(app)
 app.permanent_session_lifetime = timedelta(days=7)
 with app.app_context():
     db.create_all()
-    #db.session.query(User).delete() 
-    #db.session.commit()
 @app.route('/',methods=['GET', 'POST'])
 def home():
     if 'username' in session:
@@ -79,6 +77,27 @@ def quiz():
 def logout():
     session.pop('username', None)
     return redirect(url_for('home', logout=True))
+
+@app.route('/get_questions')
+def get_ques():
+    tname = request.args.get('topic')
+    topic = Topic.query.filter(Topic.tname == tname).first()
+    if not topic:
+        return jsonify([])
+    
+    questions = Question.query.filter(tid = topic.tid).all()
+    question_list = []
+    for question in questions:
+        question_list.append({
+            'qid': question.qid,
+            'question': question.question,
+            'option1': question.option1,
+            'option2': question.option2,
+            'option3': question.option3,
+            'option4': question.option4,
+            'correct': getattr(question, f'option{question.correct}')
+        })
+    return jsonify(question_list)
 
 if (__name__ == '__main__'):
     app.run(debug=True)
