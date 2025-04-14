@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Send+Flowers&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    color: white;
+    background: #513066;
+    font-family: "Source Code Pro", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+header {
+    background: #350149;
+    font-size: 36px;
+    padding: 15px;
+    text-align: center;
+    font-weight: 1000;
+    font-style: normal;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 20px;
+}
+
+#quiz-title {
+    font-size: 45px;
+    margin-bottom: 30px;
+}
+
+#question-container {
+    background: #845ec3;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 600px;
+}
+
+#question-container p {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #D17D98;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.option:hover {
+    background: #e0b600;
+}
+
+#next-button {
+    padding: 15px 30px;
+    font-size: 20px;
+    background: #d06ce1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#next-button:hover {
+    background: #b44ec0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in-out forwards;
+}

@@ -4,12 +4,21 @@
         <meta charset="UTF-8">
         <meta viewport="width=device-width, initial-scale=1.0">
         <title>Quiz Master Home Page</title>
-        <link rel="stylesheet" href="../css/homepage.css">
-        <script src="../js/homepage.js"></script>
-        <link rel="icon" href="../Icons/house-door-fill.svg" type="image/x-icon">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/homepage.css')}}">
+        <script>
+            const quizURL="{{ url_for('quiz') }}";
+        </script>
+        <script src="{{url_for('static', filename = 'js/homepage.js')}}"></script>
+        <link rel="icon" href="{{url_for('static',filename='icons/house-door-fill.svg')}}" type="image/x-icon">
     </head>
     <body>
-        <header>Welcome to Quiz Master</header>
+        <header>Welcome to Quiz Master 
+            {% if name %}
+                , {{ name }}!
+            {% else %}
+                , Guest!
+            {% endif %}
+        </header>
         <div class="container">
             <div class="vertical-center">
                 <h1>Test your knowledge in your desired subject!</h1>

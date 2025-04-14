@@ -6,9 +6,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width">
         <title>Quiz Master Register</title>
-        <link rel="stylesheet" type="text/css" href="../css/login.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        <link rel="icon" href="../Icons/register-page-icon.svg" type="image/x-icon">
+        <link rel="icon" href="{{url_for ('static', filename='icons/register-page-icon.svg')}}" type="image/x-icon">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
         <style>
@@ -138,38 +138,51 @@
     </head>
     <body>
         <div class="wrapper">
-            <form id="Register" action="../index.html" method="get">
-                
+            <form id="Register" action="{{ url_for('register') }}" method="post">
                 <h1>Register</h1>
-                
+                {% if userError %}
+                    <p style="color: red; font-weight: bold; text-align: center;">Username already exists!</p>
+                {% endif %}
+                {% if passError %}
+                    <p style="color: red; font-weight: bold; text-align: center;">Passwords do not match!</p>
+                {% endif %}
+                {% if mailError %}
+                    <p style="color: red; font-weight: bold; text-align: center;">Given Email is already registered!</p>
+                {% endif %}
+                {% if mailNotValidError %}
+                    <p style="color: red; font-weight: bold; text-align: center;">Not a valid Email!</p>
+                {% endif %}
                 <div class="input-box">
-                    <input type="text" placeholder="Name" required>
+                    <input type="text" name="name" placeholder="Name" required value="{{ name | default('') }}">
                     <i class="bi bi-person"></i>
                 </div>
                 
                 <div class="input-box">
-                    <input type="text" placeholder="Username" required>
+                    <input type="text" name="username" placeholder="Username" required value="{{ username | default('') }}">
+                    {% if usernameError %}
+                        <p style="color: red; font-weight: bold; text-align: center;">Username already exists!</p>
+                    {% endif %}
                     <i class="bi bi-person-circle"></i>
                 </div>
 
                 <div class="input-box">
-                    <input  type="email" placeholder="Mail ID" required>
+                    <input  type="email" name="mail" placeholder="Mail ID" required value="{{ mail | default('') }}">
                     <i class="bi bi-envelope-at-fill"></i>
                 </div>
 
                 <div class="input-box password-container">
-                    <input class="password" type="password" placeholder="Password" required>
+                    <input class="password" name="password" type="password" placeholder="Password" required value="{{ password | default('') }}">
                     <i class="bi bi-eye-slash eye"></i>
                 </div>
                 
                 <div class="input-box password-container">
-                    <input class="password" type="password" placeholder="Confirm Password" required>
+                    <input class="password" name="confirm_password" type="password" placeholder="Confirm Password" required value="{{ confirm_password | default('') }}">
                     <i class="bi bi-eye-slash eye"></i>
                 </div>
 
-                <button type="submit" class="button" onclick="alert('Successfully Regsitered!')">Register</button>
+                <button type="submit" class="button">Register</button>
             </form>
         </div>
-        <script src="../js/pass-toggle.js"></script>
+        <script src="{{ url_for('static', filename='js/pass-toggle.js') }}"></script>
     </body>
 </html>
