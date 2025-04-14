@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../static/css/homepage.css">
+    <link rel="icon" href="../static/icons/house-door-fill.svg" type="image/x-icon">
+    <script src="../static/js/admin-homepage.js"></script>
+</head>
+<body>
+    <header>Welcome to Quiz Master, Admin!</header>
+    <br>
+    <div class="container">
+        <div class="vertical-center">
+            <div class="set-questions">
+                <h2>Set Questions in your desired subject</h2>
+                <p id="fill" style="color: red"></p>
+                <a href="./admin-edit-questions.html" id="edit-button">Edit Questions</a>
+                <a href="./admin-add-questions.html" id="add-button">Add Questions</a>
+                <div class="categories">
+                    <div class="category">Science
+                        <div class="dropdown">
+                            <div>Physics</div>
+                            <div>Chemistry</div>
+                            <div>Biology</div>
+                        </div>
+                    </div>
+                    <div class="category">History
+                        <div class="dropdown">
+                            <div>Ancient</div>
+                            <div>Medieval</div>
+                            <div>Modern</div>
+                        </div>
+                    </div>
+                    <div class="category">Math
+                        <div class="dropdown">
+                            <div>Algebra</div>
+                            <div>Geometry</div>
+                            <div>Calculus</div>
+                        </div>
+                    </div>
+                    <div class="category">Technology
+                        <div class="dropdown">
+                            <div>AI</div>
+                            <div>Programming</div>
+                            <div>Cybersecurity</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3>Check your student's progress:</h3>
+            <div class="bar-plot-finished-vs-unfinished">
+                <p>This should be a bar plot for the finished vs unfinished quizzes for each subject. (Number of students)</p>
+            </div>
+            <div class="box-plots">
+                <div class="first-column">
+                    <div class="science-box-plots">
+                        <p>Box plots for all subjects under science - box plots of time taken by those who completed.</p>
+                    </div>
+                    <div class="history-box-plots">
+                        <p>Box plots for all subjects under history - box plots of time taken by those who completed.</p>
+                    </div>
+                </div>
+                <div class="second-column">
+                    <div class="math-box-plots">
+                        <p>Box plots for all subjects under math - box plots of time taken by those who completed.</p>
+                    </div>
+                    <div class="technology-box-plots">
+                        <p>Box plots for all subjects under technology - box plots of time taken by those who completed.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="student-status">
+                <p>Print every student in a table and check their status with a link that leads to the student profile.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -10,6 +10,8 @@ db.init_app(app)
 app.permanent_session_lifetime = timedelta(days=7)
 with app.app_context():
     db.create_all()
+    #db.session.query(User).delete() 
+    #db.session.commit()
 @app.route('/',methods=['GET', 'POST'])
 def home():
     if 'username' in session:

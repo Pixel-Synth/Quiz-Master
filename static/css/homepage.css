@@ -27,6 +27,14 @@ header{
     height: auto;
 }
 
+.questions{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
 .vertical-center{
     margin: 0;
     position: absolute;
@@ -48,7 +56,31 @@ h2{
     font-size: 35px;
 }
 
+h3{
+    font-size: 25px;
+}
+
 #start-button{
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 20px;
+    background: #d06ce1;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#edit-button{
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 20px;
+    background: #d06ce1;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#add-button{
     display: inline-block;
     padding: 15px 30px;
     font-size: 20px;
@@ -132,4 +164,11 @@ h2{
 
 .fade-in {
     animation: fadeIn 1.5s ease-in-out forwards;
+}
+
+.box-plots{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
 }

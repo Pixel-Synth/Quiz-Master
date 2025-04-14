@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{Subject} {Side-Subject} Questions Edit</title>
+    <link rel="stylesheet" href="../static/css/homepage.css">
+    <link rel="icon" href="../static/icons/house-door-fill.svg" type="image/x-icon">
+    <script src="../static/js/admin-homepage.js"></script>
+</head>
+<body>
+    <header>{Subject} {Side-Subject} Questions Edit Page</header>
+    <br>
+    <div class="container">
+        <div class="questions">
+            <div class="question-sample-edit-{n}">
+                <p id="sample-question-{n}">Sample Edit Question</p>
+                <input type="text" id="sample-edit-answer-opt-a-{n}" placeholder="Option A">
+                <input type="text" id="sample-edit-answer-opt-b-{n}" placeholder="Option B"> <br> <br>
+                <input type="text" id="sample-edit-answer-opt-c-{n}" placeholder="Option C">
+                <input type="text" id="sample-edit-answer-opt-d-{n}" placeholder="Option D"> <br> <br>
+                <select id="sample-edit-answer-correct-{n}">
+                    <option value="A-{n}">A</option>
+                    <option value="B-{n}">B</option>
+                    <option value="C-{n}">C</option>
+                    <option value="D-{n}">D</option>
+                </select> <br> <br>
+                <button id="sample-edit-button-{n}">Modify the question</button>
+                <button id="sample-delete-button-{n}">Delete the question</button>
+                <script>
+                    /*Make it so that this one is printed dynamically everytime the table changes.*/
+                </script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
