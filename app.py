@@ -1,6 +1,7 @@
 import sqlite3
 from datetime import timedelta
 from flask import Flask, render_template, request, session
+from email_validator import validate_email,EmailNotValidError
 from model import db, User
 app = Flask(__name__, instance_relative_config=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -47,6 +48,10 @@ def register():
             return render_template('register.html', mailError=True, username=username, mail=mail, password=password, name=name, confirm_password=confirm_password)
         if password != confirm_password:
             return render_template('register.html', passError=True, username=username, mail=mail, password=password, name=name, confirm_password=confirm_password)
+        try:
+            valid=validate_email(mail)
+        except EmailNotValidError as e:
+            return render_template('register.html', mailNotValidError=True, username=username, mail=mail, password=password, name=name, confirm_password=confirm_password)
         new_user = User(username=username, mail=mail, password=password, name=name.capitalize())
         db.session.add(new_user)
         db.session.commit()
@@ -68,5 +73,6 @@ def quiz():
 def logout():
     session.pop('username', None)
     return render_template('index.html', logout=True)
+
 if (__name__ == '__main__'):
     app.run(debug=True)

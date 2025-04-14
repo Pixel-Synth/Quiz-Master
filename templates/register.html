@@ -147,7 +147,10 @@
                     <p style="color: red; font-weight: bold; text-align: center;">Passwords do not match!</p>
                 {% endif %}
                 {% if mailError %}
-                    <p style="color: red; font-weight: bold; text-align: center;">Email already exists!</p>
+                    <p style="color: red; font-weight: bold; text-align: center;">Given Email is already registered!</p>
+                {% endif %}
+                {% if mailNotValidError %}
+                    <p style="color: red; font-weight: bold; text-align: center;">Not a valid Email!</p>
                 {% endif %}
                 <div class="input-box">
                     <input type="text" name="name" placeholder="Name" required value="{{ name | default('') }}">
@@ -164,9 +167,6 @@
 
                 <div class="input-box">
                     <input  type="email" name="mail" placeholder="Mail ID" required value="{{ mail | default('') }}">
-                    {% if mailError %}
-                        <p style="color: red; font-weight: bold; text-align: center;">Email already exists!</p>
-                    {% endif %}
                     <i class="bi bi-envelope-at-fill"></i>
                 </div>
 

@@ -141,10 +141,13 @@
         <form id="Login" action="{{url_for('home')}}" method="post">
             <h1>Login to Quiz Master</h1>
             {% if success %}
-                <p style="color: green; font-weight: bold; text-align: center;">Successfully Registered! You can login now</p>
+                <p style="color: green; font-weight: bold; text-align: center;padding: 20px;">Successfully Registered! You can login now</p>
             {% endif %}
             {% if error %}
-                <p style="color: red; font-weight: bold; text-align: center;">Username and Password do not match!</p>
+                <p style="color: red; font-weight: bold; text-align: center;padding: 20px">Username and Password do not match!</p>
+            {% endif %}
+            {% if logout %}
+                <p style="color: red; font-weight: bold; text-align: center;padding: 20px;">You have been logged out!</p>
             {% endif %}
             <div class="input-box">
                 <input type="text" name="username" placeholder="Username" required value="{{username | default('')}}">
@@ -176,6 +179,6 @@
     <script>
         gsap.from(".wrapper", { opacity: 0, y: -50, duration: 1, ease: "power2.out" });
     </script>
-   
+
 </body>
 </html>
