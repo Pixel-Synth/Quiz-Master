@@ -1,6 +1,6 @@
 import sqlite3
 from datetime import timedelta
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template,redirect,url_for, request, session
 from email_validator import validate_email,EmailNotValidError
 from model import db, User
 app = Flask(__name__, instance_relative_config=True)
@@ -30,6 +30,10 @@ def home():
             return render_template('homepage.html', name=username)
         else:
             return render_template('index.html', error=True, username=username, password=password)
+    if request.args.get('logout'):
+        return render_template('index.html', logout=True)
+    if request.args.get('success'):
+        return render_template('index.html', success=True)
     return render_template('index.html')
 
 @app.route('/register',methods=['GET', 'POST'])
@@ -56,7 +60,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         
-        return render_template('index.html', success=True)
+        return redirect(url_for('home', success=True))
     return render_template('register.html')
 
 @app.route('/homepage')
@@ -72,7 +76,7 @@ def quiz():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return render_template('index.html', logout=True)
+    return redirect(url_for('home', logout=True))
 
 if (__name__ == '__main__'):
     app.run(debug=True)
