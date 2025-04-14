@@ -1,16 +1,20 @@
 import sqlite3
+from datetime import timedelta
 from flask import Flask, render_template, request, session
 from model import db, User
 app = Flask(__name__, instance_relative_config=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.secret_key="pixelSynth"
 db.init_app(app)
+app.permanent_session_lifetime = timedelta(days=7)
 with app.app_context():
     db.create_all()
 @app.route('/',methods=['GET', 'POST'])
 def home():
+    if 'username' in session:
+        username = session['username']
+        return render_template('homepage.html', name=username)
     if request.method == 'POST':
-        print(request.form)
         username = request.form.get('username')
         password = request.form.get('password')
         remember = request.form.get('remember')
@@ -19,15 +23,12 @@ def home():
             session['username'] = username
             if remember:
                 session.permanent = True
-                app.permanent_session_lifetime = timedelta(days=7)
             else:
                 session.permanent = False
+            print(remember, session.permanent)
             return render_template('homepage.html', name=username)
         else:
             return render_template('index.html', error=True, username=username, password=password)
-    if 'username' in session:
-        username = session['username']
-        return render_template('homepage.html', name=username)
     return render_template('index.html')
 
 @app.route('/register',methods=['GET', 'POST'])
@@ -63,5 +64,9 @@ def quiz():
     topic = request.args.get('topic')
     return render_template('quiz.html', subject=subject, topic=topic)
 
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return render_template('index.html', logout=True)
 if (__name__ == '__main__'):
     app.run(debug=True)
