@@ -359,23 +359,38 @@
     <div class="wrapper">
         <div class="profile-section">
             <h1>User Profile</h1>
-            <p style="color: green; font-weight: bold; text-align: center;padding: 10px;">
-            </p>
-            </p>
-
+            {% if success %}
+            <p style="color: green; font-weight: bold; text-align: center;padding: 10px;">Updated Successfully!</p>
+            {% endif %}
+            {% if passwdError %}
+            <p style="color: red; font-weight: bold; text-align: center;padding: 10px;">Password is Incorrect!</p>
+            {% endif %}
+            {% if matchError %}
+            <p style="color: red; font-weight: bold; text-align: center;padding: 10px;">Passwords do not match!</p>
+            {% endif %}
+            {% if userError %}
+            <p style="color: red; font-weight: bold; text-align: center;padding: 10px;">Username already exists!</p>
+            {% endif %}
+            {% if emailError %}
+            <p style="color: red; font-weight: bold; text-align: center;padding: 10px;">Email already exists!</p>
+            {% endif %}
+            {% if mailNotValidError %}
+            <p style="color: red; font-weight: bold; text-align: center;padding: 10px;">Please Enter a Valid E-Mail</p>
+            {% endif %}
             <div class="profile-info">
                 <div class="profile-avatar">
+                    <i class="bi bi-person-circle"></i>
                 </div>
                 <div class="profile-details">
                     <h2 class="profile-name">
-                        { % if name %}
+                        {% if name %}
                             {{name}}
-                        { % end if % }
+                        {% endif %}
                     </h2>
                     <p class="profile-username">
-                        { % if username %}
+                        {% if username %}
                         @{{ username }}
-                        { % end if % }
+                        {% endif %}
                     </p>
                 </div>
             </div>
@@ -386,11 +401,11 @@
             <form id="update-profile" action="{{ url_for('update_profile') }}" method="post">
                 <div class="input-box">
                     <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" value="{{name}}" required>
                 </div>
                 <div class="input-box">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required>
+                    <input type="text" id="username" name="username" value="{{username}}" required>
                 </div>
                 <div class="form-buttons">
                     <button type="submit" class="button">Update Profile</button>
@@ -403,15 +418,18 @@
             <form id="change-password" action="{{ url_for('change_password') }}" method="post">
                 <div class="input-box">
                     <label for="current-password">Current Password</label>
-                    <input type="password" id="current-password" name="current_password" required>
+                    <input type="password" id="current-password" name="current_password" class="password" required>
+                    <i class="bi bi-eye-slash eye"></i>
                 </div>
                 <div class="input-box">
                     <label for="new-password">New Password</label>
-                    <input type="password" id="new-password" name="new_password" required>
+                    <input type="password" id="new-password" name="new_password" class="password" required>
+                    <i class="bi bi-eye-slash eye"></i>
                 </div>
                 <div class="input-box">
                     <label for="confirm-password">Confirm New Password</label>
-                    <input type="password" id="confirm-password" name="confirm_password" required>
+                    <input type="password" id="confirm-password" name="confirm_password" class="password" required>
+                    <i class="bi bi-eye-slash eye"></i>
                 </div>
                 <div class="form-buttons">
                     <button type="submit" class="button">Change Password</button>
@@ -424,7 +442,7 @@
             <form id="update-email" action="{{ url_for('update_email') }}" method="post">
                 <div class="input-box">
                     <label for="current-email">Current Email</label>
-                    <input type="email" id="current-email" value="user.email" disabled>
+                    <input type="email" id="current-email" value="{{mail}}" disabled>
                 </div>
                 <div class="input-box">
                     <label for="new-email">New Email</label>
@@ -432,7 +450,8 @@
                 </div>
                 <div class="input-box">
                     <label for="password">Current Password (to confirm)</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" name="password" class="password" required>
+                    <i class="bi bi-eye-slash eye"></i>
                 </div>
                 <div class="form-buttons">
                     <button type="submit" class="button">Update Email</button>
@@ -469,8 +488,8 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/backgroundjs.js') }}"></script>
-
+    <!--script src="{{ url_for('static', filename='js/backgroundjs.js') }}"></script!-->
+    <script src="{{ url_for('static', filename='js/pass-toggle.js') }}"></script>
 </body>
 
 </html>

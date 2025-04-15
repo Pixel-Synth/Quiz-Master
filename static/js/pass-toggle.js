@@ -1,6 +1,5 @@
 const eyes = document.querySelectorAll('.eye');
 const passwords = document.querySelectorAll('.password');
-console.log(eyes);
 eyes.forEach((eye, index) => {
   eye.addEventListener('click', () => {
     const password = passwords[index];

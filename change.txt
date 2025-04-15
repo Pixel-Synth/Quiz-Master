@@ -1,3 +1,4 @@
 Add Graphs
 Add / Edit Questions
 Make index.html (Description about Quiz app, Link for Login and register)
+Retain all the values if error is thrown in profile updation (Last priority)
