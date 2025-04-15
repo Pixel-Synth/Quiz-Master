@@ -13,25 +13,26 @@
     <br>
     <div class="container">
         <div class="questions">
-            <div class="question-sample-edit-{n}">
-                <p id="sample-question-{n}">Sample Edit Question</p>
-                <input type="text" id="sample-edit-answer-opt-a-{n}" placeholder="Option A">
-                <input type="text" id="sample-edit-answer-opt-b-{n}" placeholder="Option B"> <br> <br>
-                <input type="text" id="sample-edit-answer-opt-c-{n}" placeholder="Option C">
-                <input type="text" id="sample-edit-answer-opt-d-{n}" placeholder="Option D"> <br> <br>
-                <select id="sample-edit-answer-correct-{n}">
-                    <option value="A-{n}">A</option>
-                    <option value="B-{n}">B</option>
-                    <option value="C-{n}">C</option>
-                    <option value="D-{n}">D</option>
-                </select> <br> <br>
-                <button id="sample-edit-button-{n}">Modify the question</button>
-                <button id="sample-delete-button-{n}">Delete the question</button>
-                <script>
-                    /*Make it so that this one is printed dynamically everytime the table changes.*/
-                </script>
+            {% for q in questions %}
+            <div class="question-sample-edit-{{ loop.index }}">
+                <p>Question: {{ q.question }}</p>
+                <input type="text" id="opt-a-{{ loop.index }}" value="{{ q.option_a }}" placeholder="Option A">
+                <input type="text" id="opt-b-{{ loop.index }}" value="{{ q.option_b }}" placeholder="Option B"><br><br>
+                <input type="text" id="opt-c-{{ loop.index }}" value="{{ q.option_c }}" placeholder="Option C">
+                <input type="text" id="opt-d-{{ loop.index }}" value="{{ q.option_d }}" placeholder="Option D"><br><br>
+                <select id="correct-{{ loop.index }}">
+                    <option value="A" {% if q.correct_option == 'A' %}selected{% endif %}>A</option>
+                    <option value="B" {% if q.correct_option == 'B' %}selected{% endif %}>B</option>
+                    <option value="C" {% if q.correct_option == 'C' %}selected{% endif %}>C</option>
+                    <option value="D" {% if q.correct_option == 'D' %}selected{% endif %}>D</option>
+                </select><br><br>
+                <button onclick="modifyQuestion({{ q.id }}, {{ loop.index }})">Modify</button>
+                <button onclick="deleteQuestion({{ q.id }})">Delete</button>
             </div>
+            <hr>
+            {% endfor %}
         </div>
     </div>
+    <script src="{{ url_for('static',filename='js/admin-edit.js') }}"></script>
 </body>
 </html>

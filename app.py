@@ -105,7 +105,6 @@ def get_ques():
     topic = Topic.query.filter(Topic.tname == tname).first()
     if not topic:
         return jsonify([])
-
     questions = Question.query.filter(tid=topic.tid).all()
     question_list = []
     for question in questions:
@@ -194,22 +193,53 @@ def update_email():
 def admin():
     return render_template('admin-homepage.html')
 
-@app.route('/adminadd')
+@app.route('/adminadd', methods=['GET', 'POST'])
 def adminadd():
+    if request.method == 'POST':
+        question = request.form.get('question')
+        option1 = request.form.get('opt-a')
+        option2 = request.form.get('opt-b')
+        option3 = request.form.get('opt-c')
+        option4 = request.form.get('opt-d')
+        correct = request.form.get('correct')
+        topic = request.args.get('topic')
+        t = Topic.query.filter_by(tname=topic).first()
+        tid = t.tid
+        new_question = Question(tid=tid, question=question, option1=option1, option2=option2, option3=option3, option4=option4, correct=correct)
+        db.session.add(new_question)
+        db.session.commit()
+        return render_template('admin-add-questions.html', success=True, subject=request.args.get('subject'), topic=topic)
     subject = request.args.get('subject')
     topic = request.args.get('topic')
-    print(subject, topic)
-    return render_template('admin-add-questions.html', subject=subject, topic=topic)
+    if subject and topic:
+
+        return render_template('admin-add-questions.html', subject=subject, topic=topic)
     return render_template('index.html')
 
 @app.route('/adminedit')
 def adminedit():
     subject = request.args.get('subject')
     topic = request.args.get('topic')
-    print(subject, topic)
+    topic_obj = Topic.query.filter_by(tname=topic, subject=subject).first()
     if subject and topic:
-        return render_template('admin-edit-questions.html', subject=subject, topic=topic)
+        if not topic_obj:
+            return render_template("admin-edit-questions.html", questions=[], subject=subject, topic=topic)
+        questions = Question.query.filter_by(tid=topic_obj.tid).all()
+        return render_template("admin-edit-questions.html", questions=questions, subject=subject, topic=topic)
     return render_template('index.html')
+
+@app.route("/update_question", methods=["POST"])
+def update_question():
+    data = request.get_json()
+    print(data)
+    return jsonify({"status": "success"})
+
+@app.route("/delete_question", methods=["POST"])
+def delete_question():
+    data = request.get_json()
+    print(data)
+    return jsonify({"status": "deleted"})
+
 
 if __name__ == '__main__':
     app.run(debug=True)
