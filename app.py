@@ -13,8 +13,12 @@ app.permanent_session_lifetime = timedelta(days=7)
 with app.app_context():
     db.create_all()
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def home():
+    return render_template('index.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     if 'username' in session:
         username = session['username']
         return render_template('homepage.html', name=session['name'], username=username)
@@ -34,14 +38,14 @@ def home():
             session.permanent = bool(remember) 
             return render_template('homepage.html', name=user.name, username=username)
         else:
-            return render_template('index.html', error=True, username=username, password=password)
+            return render_template('login.html', error=True, username=username, password=password)
     
     if request.args.get('logout'):
-        return render_template('index.html', logout=True)
+        return render_template('login.html', logout=True)
     if request.args.get('success'):
-        return render_template('index.html', success=True)
+        return render_template('login.html', success=True)
     
-    return render_template('index.html')
+    return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -71,7 +75,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         
-        return redirect(url_for('home', success=True))
+        return redirect(url_for('login', success=True))
     return render_template('register.html')
 
 @app.route('/homepage')
@@ -91,7 +95,7 @@ def logout():
     session.pop('username', None)
     session.pop('name', None)
     session.pop('email', None)
-    return redirect(url_for('home', logout=True))
+    return redirect(url_for('login', logout=True))
 
 @app.route('/get_questions')
 def get_ques():
@@ -140,7 +144,7 @@ def update_profile():
             session['email'] = user.mail
         db.session.commit()        
         return redirect(url_for('profilepage', success=True, username=username, name=session['name'], mail=session['email']))
-    return render_template('profilepage.html')
+    return render_template('index.html')
 
 @app.route('/change_password', methods=['GET', 'POST'])
 def change_password():
