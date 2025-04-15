@@ -8,13 +8,20 @@
         const addURL="{{ url_for('adminadd') }}";
         const editURL="{{ url_for('adminedit') }}";
     </script>
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/homepage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/admin-homepage.css') }}">
     <link rel="icon" href="{{ url_for('static',filename='icons/house-door-fill.svg' ) }}/" type="image/x-icon">
     <script src="{{ url_for('static',filename='js/admin-homepage.js' ) }} " defer></script>
 </head>
 <body>
-    <header>Welcome to Quiz Master, Admin!</header>
-    <br>
+    <header>
+        <div class="header-content">
+            <div class="spacer"></div>
+            <span class="header-title">Welcome to Quiz Master, Admin!</span>
+            <form action="{{ url_for('logout') }}" method="get">
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </header>        
     <div class="container">
         <div class="vertical-center">
             <h2>Set Questions in your desired subject</h2>
