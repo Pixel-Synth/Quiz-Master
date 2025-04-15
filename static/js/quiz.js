@@ -34,18 +34,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function displayQuestion() {
         const q = selectedQuestions[currentQuestionIndex];
+        console.log(q);
         questionContainer.innerHTML = `
             <p>${q.question}</p>
-            ${q.options.map(option => `<button class='option'>${option}</button>`).join('')}
+            <button class="option" id="option1">${q.option1}</button>
+            <button class="option" id="option2">${q.option2}</button>
+            <button class="option" id="option3">${q.option3}</button>
+            <button class="option" id="option4">${q.option4}</button>
         `;
 
         document.querySelectorAll(".option").forEach(button => {
             button.addEventListener("click", function () {
-                if (this.innerText === q.answer) {
+                if (this.id == ("option"+q.correct)) {
                     this.style.backgroundColor = "green";
                     buttons = document.querySelectorAll(".option");
                     buttons.forEach(button => {
-                        if (button.innerText !== q.answer) {
+                        if (button.id !== "option"+q.correct) {
                             button.disabled = true;
                         }
                     });
@@ -56,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (button != this) {
                             button.disabled = true;
                         }
-                        if (button.innerText === q.answer) {
+                        if (button.id === "option"+q.correct) {
                             button.style.backgroundColor = "green";
                         }
                     });

@@ -10,7 +10,7 @@ app.secret_key = "pixelSynth"
 db.init_app(app)
 app.permanent_session_lifetime = timedelta(days=7)
 
-with app.app_context():
+with app.app_context(): 
     db.create_all()
 
 @app.route('/')
@@ -105,19 +105,22 @@ def get_ques():
     topic = Topic.query.filter(Topic.tname == tname).first()
     if not topic:
         return jsonify([])
-    questions = Question.query.filter(tid=topic.tid).all()
-    question_list = []
-    for question in questions:
-        question_list.append({
-            'qid': question.qid,
-            'question': question.question,
-            'option1': question.option1,
-            'option2': question.option2,
-            'option3': question.option3,
-            'option4': question.option4,
-            'correct': getattr(question, f'option{question.correct}')
-        })
-    return jsonify(question_list)
+    print(topic.tid)
+    if Question.query.count() > 0:
+        questions = Question.query.filter(Question.tid == topic.tid).all()
+        question_list = []
+        for question in questions:
+            question_list.append({
+                'qid': question.qid,
+                'question': question.question,
+                'option1': question.option1,
+                'option2': question.option2,
+                'option3': question.option3,
+                'option4': question.option4,
+                'correct': question.correct
+            })
+        return jsonify(question_list)
+    return jsonify([])
 
 @app.route('/profilepage', methods=['GET', 'POST'])
 def profilepage():
