@@ -172,3 +172,7 @@ h3{
     align-items: center;
     height: auto;
 }
+
+.modify{
+    cursor: pointer;
+}

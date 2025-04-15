@@ -28,6 +28,8 @@ def login():
         password = request.form.get('password')
         remember = request.form.get('remember')
         if username == "admin" and password == "pixel-synth":
+            session['username'] = username
+            session.permanent = bool(remember)
             return redirect(url_for('admin'))
         
         user = User.query.filter((User.username == username) & (User.password == password)).first()
@@ -194,11 +196,20 @@ def admin():
 
 @app.route('/adminadd')
 def adminadd():
-    return render_template('admin-add-questions.html')
+    subject = request.args.get('subject')
+    topic = request.args.get('topic')
+    print(subject, topic)
+    return render_template('admin-add-questions.html', subject=subject, topic=topic)
+    return render_template('index.html')
 
 @app.route('/adminedit')
 def adminedit():
-    return render_template('admin-edit-questions.html')
+    subject = request.args.get('subject')
+    topic = request.args.get('topic')
+    print(subject, topic)
+    if subject and topic:
+        return render_template('admin-edit-questions.html', subject=subject, topic=topic)
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

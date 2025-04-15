@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{Subject} {Side-Subject} Questions Edit</title>
-    <link rel="stylesheet" href="../static/css/homepage.css">
-    <link rel="icon" href="../static/icons/house-door-fill.svg" type="image/x-icon">
-    <script src="../static/js/admin-homepage.js"></script>
+    <title>{{subject}} {{topic}} Questions Edit</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/homepage.css') }}">
+    <link rel="icon" href="{{ url_for('static',filename='icons/house-door-fill.svg') }}" type="image/x-icon">
+    <script src="{{ url_for('static',filename='css/admin-homepage.js') }}"></script>
 </head>
 <body>
-    <header>{Subject} {Side-Subject} Questions Edit Page</header>
+    <header>{{subject}} {{topic}} Questions Edit Page</header>
     <br>
     <div class="container">
         <div class="questions">

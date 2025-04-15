@@ -2,3 +2,6 @@ Add Graphs
 Add / Edit Questions
 Make index.html (Description about Quiz app, Link for Login and register)
 Retain all the values if error is thrown in profile updation (Last priority)
+Change Layout for Admin Homepage
+Add Logout for Admin (Just make a button with reference like the one in user profile)
+Give a back option in Profile Page

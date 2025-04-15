@@ -53,17 +53,28 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("fill").innerHTML = ("You selected: " + subject + " - " + selectedCategory);
         });
     });
-
-    document.getElementById("set-button").addEventListener("click", function (event) {
-        if (!selectedCategory) {
-            event.preventDefault();
-            document.getElementById("fill").innerHTML = ("Please select a topic before starting the quiz!");
-        } /*else {
-            alert("Starting quiz on: " + selectedCategory);
-        }*/
-        else {
-            const url = `${quizURL}?subject=${encodeURIComponent(subject)}&topic=${encodeURIComponent(selectedCategory)}`;
-            window.location.href = url;
-        }
-    });
+    let modifyButtons = document.getElementsByClassName("modify");
+    for (let i = 0; i < modifyButtons.length; i++) {
+        modifyButtons[i].addEventListener("click", function (event) {
+            if (!selectedCategory) {
+                event.preventDefault();
+                document.getElementById("fill").innerHTML = "Please select a topic before adding/editing questions";
+            } else {
+                if (modifyButtons[i].id == "add-button") {
+                    const url = `${addURL}?subject=${encodeURIComponent(subject)}&topic=${encodeURIComponent(selectedCategory)}`;
+                    window.location.href = url;
+                    console.log(url);
+                }
+                else if (modifyButtons[i].id == "edit-button") {
+                    const url = `${editURL}?subject=${encodeURIComponent(subject)}&topic=${encodeURIComponent(selectedCategory)}`;
+                    window.location.href = url;
+                    console.log(url);
+                }
+                
+                
+                console.log(subject);
+                console.log(selectedCategory);
+            }
+        });
+    }
 });
