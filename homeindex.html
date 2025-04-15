@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Quiz Master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
+
+        #defaultCanvas0 {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            color: white;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .buttons a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #4c51bf;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        footer.sponsors {
+            margin-top: 50px;
+            padding: 10px 0;
+            background-color: #242424;
+            text-align: center;
+            width: 100%;
+        }
+
+        .buttons a:hover {
+            background-color: #5a67d8;
+        }
+
+        .section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 20px 20px;
+            text-align: center;
+            color: white;
+            z-index: 5;
+            scroll-snap-align: start;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .section p {
+            font-size: 1.2rem;
+            max-width: 700px;
+        }
+
+        .features {
+            list-style: none;
+            padding: 0;
+            font-size: 1.2rem;
+            text-align: left;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features li {
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .features i {
+            color: #4fd1c5;
+            font-size: 1.3rem;
+        }
+
+        .sponsors {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .sponsor-logos {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        footer.sponsors h2 {
+            font-size: 1.5rem;
+        }
+
+        .sponsor-logos img {
+            max-height: 80px;
+            width: auto;
+            max-width: 200px;
+
+        }
+
+        .sponsor-logos img:nth-child(2) {
+            max-height: 100px;
+        }
+
+        .sponsor-logos img:nth-child(3) {
+            max-height: 120px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Quiz Master</h1>
+        <div class="buttons">
+            <a href="{{ url_for('register') }}" class="button full-width">Register</a>
+            <a href="{{ url_for('home') }}" class="button full-width">Login</a>
+        </div>
+
+    </header>
+
+    <section class="section">
+        <h2>Welcome to Quiz Master!</h2>
+        <p>
+            Your go-to platform for challenging quizzes across various topics.
+            Whether you're studying or just having fun, Quiz Master helps you learn, compete, and grow.
+        </p>
+    </section>
+
+    <section class="section">
+        <h2>Why Choose Quiz Master?</h2>
+        <p>
+        <ul class="features">
+            <li><i class="fas fa-check-circle"></i> Thousands of questions</li>
+            <li><i class="fas fa-check-circle"></i> Multiple subjects & categories</li>
+            <li><i class="fas fa-check-circle"></i> Track your progress and compete with friends</li>
+            <li><i class="fas fa-check-circle"></i> Smooth, user-friendly interface</li>
+            <li><i class="fas fa-rocket"></i> Get started today and boost your brainpower!</li>
+        </ul>
+        </p>
+        <footer class="sponsors">
+            <h2>Our Sponsors</h2>
+            <div class="sponsor-logos">
+                <img src="logo1.png" alt="Company 1">
+                <img src="logo2.png" alt="Company 2">
+                <img src="logo3.png" alt="Company 3">
+                <img src="logo4.png" alt="Company 4">
+            </div>
+        </footer>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+
+    <script>
+        let particleArray = [];
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+            for (let i = 0; i < 70; i++) {
+                particleArray.push(new createParticles(random(width), random(height)));
+            }
+        }
+
+        function draw() {
+            background(20);
+            for (let i = 0; i < particleArray.length; i++) {
+                particleArray[i].move();
+                for (let j = i; j < particleArray.length; j++) {
+                    particleArray[i].lineGenerator(particleArray[j].valX(), particleArray[j].valY());
+                }
+                particleArray[i].display();
+                particleArray[i].checkEdges();
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+
+        function mouseClicked() {
+            if (particleArray.length < 100) {
+                particleArray.push(new createParticles(mouseX, mouseY));
+            }
+        }
+
+        function createParticles(x, y) {
+            this.angle = random(-1, 1);
+            this.x = x;
+            this.y = y;
+            this.diameter = random(10, 15);
+            this.speedX = random(-1.5, 1.5);
+            this.speedY = random(-1.5, 1.5);
+            this.opacity = random(180, 255);
+            this.move = function () {
+                this.x += this.speedX;
+                this.y += this.speedY;
+            };
+            this.display = function () {
+                let d = (sin(this.angle + PI / 2) * this.diameter / 2) + this.diameter / 2;
+                fill(255, 255, 255, this.opacity);
+                noStroke();
+                ellipse(this.x, this.y, d, d);
+                this.angle += random(0.01, 0.05);
+            };
+            this.lineGenerator = function (a, b) {
+                if (dist(this.x, this.y, mouseX, mouseY) < 127) {
+                    stroke(0, 0, 255, 255 - 2 * dist(this.x, this.y, mouseX, mouseY));
+                    line(this.x, this.y, mouseX, mouseY);
+                }
+                if (dist(this.x, this.y, a, b) < 127) {
+                    stroke(0, 0, 255, 255 - 2 * dist(this.x, this.y, a, b));
+                    line(this.x, this.y, a, b);
+                }
+            };
+            this.checkEdges = function () {
+                if (this.x > width + this.diameter || this.x < -this.diameter) {
+                    this.x = width - this.x;
+                }
+                if (this.y > height + this.diameter || this.y < -this.diameter) {
+                    this.y = height - this.y;
+                }
+            };
+            this.valX = () => this.x;
+            this.valY = () => this.y;
+        }
+    </script>
+</body>
+
+</html>
