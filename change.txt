@@ -1,3 +1,3 @@
-Use Name instead of Username in welcoming in homepage
-Add a link for login page in register.html
-Remove social media sign in
+Add Graphs
+Add / Edit Questions
+Make index.html (Description about Quiz app, Link for Login and register)

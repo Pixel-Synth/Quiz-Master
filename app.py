@@ -19,6 +19,8 @@ def home():
         username = request.form.get('username')
         password = request.form.get('password')
         remember = request.form.get('remember')
+        if username == "admin" and password == "pixel-synth":
+            return redirect(url_for('admin'))
         user = User.query.filter((User.username == username) & (User.password == password)).first()
         if user:
             session['username'] = username
@@ -26,8 +28,8 @@ def home():
                 session.permanent = True
             else:
                 session.permanent = False
-            print(remember, session.permanent)
-            return render_template('homepage.html', name=username)
+            print(user.name)
+            return render_template('homepage.html', name=user.name)
         else:
             return render_template('index.html', error=True, username=username, password=password)
     if request.args.get('logout'):
@@ -98,6 +100,34 @@ def get_ques():
             'correct': getattr(question, f'option{question.correct}')
         })
     return jsonify(question_list)
+
+@app.route('/profilepage')
+def profilepage():
+    return render_template('profilepage.html',)
+
+@app.route('/update_profile')
+def update_profile():
+    return render_template('profilepage.html')
+
+@app.route('/change_password')
+def change_password():
+    return render_template('profilepage.html')
+
+@app.route('/update_email')
+def update_email():
+    return render_template('profilepage.html')
+
+@app.route('/admin')
+def admin():
+    return render_template('admin-homepage.html')
+
+@app.route('/adminadd')
+def adminadd():
+    return render_template('admin-add-questions.html')
+
+@app.route('/adminedit')
+def adminedit():
+    return render_template('admin-edit-questions.html')
 
 if (__name__ == '__main__'):
     app.run(debug=True)

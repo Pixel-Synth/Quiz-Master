@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="../static/css/homepage.css">
-    <link rel="icon" href="../static/icons/house-door-fill.svg" type="image/x-icon">
-    <script src="../static/js/admin-homepage.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/homepage.css' ) }}">
+    <link rel="icon" href="{{ url_for('static',filename='icons/house-door-fill.svg' ) }}/" type="image/x-icon">
+    <script src="{{ url_for('static',filename='js/admin-homepage.js' ) }} "></script>
 </head>
 <body>
     <header>Welcome to Quiz Master, Admin!</header>
@@ -16,8 +16,8 @@
             <div class="set-questions">
                 <h2>Set Questions in your desired subject</h2>
                 <p id="fill" style="color: red"></p>
-                <a href="./admin-edit-questions.html" id="edit-button">Edit Questions</a>
-                <a href="./admin-add-questions.html" id="add-button">Add Questions</a>
+                <a href="{{ url_for('adminedit') }}" id="edit-button">Edit Questions</a>
+                <a href="{{ url_for('adminadd') }}" id="add-button">Add Questions</a>
                 <div class="categories">
                     <div class="category">Science
                         <div class="dropdown">

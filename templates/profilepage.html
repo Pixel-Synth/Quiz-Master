@@ -367,8 +367,16 @@
                 <div class="profile-avatar">
                 </div>
                 <div class="profile-details">
-                    <h2 class="profile-name">{{ user.name }}</h2>
-                    <p class="profile-username">@{{ user.username }}</p>
+                    <h2 class="profile-name">
+                        { % if name %}
+                            {{name}}
+                        { % end if % }
+                    </h2>
+                    <p class="profile-username">
+                        { % if username %}
+                        @{{ username }}
+                        { % end if % }
+                    </p>
                 </div>
             </div>
         </div>
@@ -378,11 +386,11 @@
             <form id="update-profile" action="{{ url_for('update_profile') }}" method="post">
                 <div class="input-box">
                     <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" value="{{ user.name }}" required>
+                    <input type="text" id="name" name="name" required>
                 </div>
                 <div class="input-box">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" value="{{ user.username }}" required>
+                    <input type="text" id="username" name="username" required>
                 </div>
                 <div class="form-buttons">
                     <button type="submit" class="button">Update Profile</button>
@@ -416,7 +424,7 @@
             <form id="update-email" action="{{ url_for('update_email') }}" method="post">
                 <div class="input-box">
                     <label for="current-email">Current Email</label>
-                    <input type="email" id="current-email" value="{{ user.email }}" disabled>
+                    <input type="email" id="current-email" value="user.email" disabled>
                 </div>
                 <div class="input-box">
                     <label for="new-email">New Email</label>
@@ -436,26 +444,26 @@
             <h2>Performance Metrics</h2>
             <div class="metrics-container">
                 <div class="metric-card">
-                    <div class="metric-value">{{ user.metrics.quizzes_taken }}</div>
+                    <div class="metric-value"> user.metrics.quizzes_taken </div>
                     <div class="metric-label">Quizzes Taken</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">{{ user.metrics.avg_score }}%</div>
+                    <div class="metric-value"> user.metrics.avg_score %</div>
                     <div class="metric-label">Average Score</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">{{ user.metrics.highest_score }}%</div>
+                    <div class="metric-value"> user.metrics.highest_score %</div>
                     <div class="metric-label">Highest Score</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value">{{ user.metrics.total_time }}</div>
+                    <div class="metric-value"> user.metrics.total_time </div>
                     <div class="metric-label">Total Time (mins)</div>
                 </div>
             </div>
         </div>
 
         <div class="profile-section">
-            <form id="logout" action="{{ url_for('logout') }}" method="post">
+            <form id="logout" action="{{ url_for('logout') }}">
                 <button type="submit" class="button danger full-width">Logout</button>
             </form>
         </div>
