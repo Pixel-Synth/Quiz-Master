@@ -11,7 +11,6 @@ db.init_app(app)
 app.permanent_session_lifetime = timedelta(days=7)
 
 with app.app_context(): 
-    '''
     Topics = Topic.query.all()
     Subjects = Subject.query.all()
     Questions = Question.query.all()
@@ -32,7 +31,6 @@ with app.app_context():
     print("Score ID, User ID, Topic ID, Score, Time")
     for score in Scores:
         print(score.sid,score.uid,score.tid,score.score,score.time)
-    '''
     db.create_all()
 
 
@@ -217,6 +215,10 @@ def update_email():
 
 @app.route('/admin')
 def admin():
+    if not session.get('username'):
+        return redirect(url_for('home'))
+    if session.get('username') != "admin":
+        return redirect(url_for('login'))
     return render_template('admin-homepage.html')
 
 @app.route('/adminadd', methods=['GET', 'POST'])
