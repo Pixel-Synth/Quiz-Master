@@ -81,6 +81,49 @@ header {
 #next-button:hover {
     background: #b44ec0;
 }
+#prev-button {
+    padding: 15px 30px;
+    font-size: 20px;
+    background: #d06ce1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#prev-button:hover {
+    background: #b44ec0;
+}
+
+#finish-button {
+    padding: 15px 30px;
+    font-size: 20px;
+    background: #d06ce1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#finish-button:hover {
+    background: #b44ec0;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px; 
+    margin-top: 20px;
+}
+
+.button-group button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 
 @keyframes fadeIn {
     from {
