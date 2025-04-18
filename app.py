@@ -11,12 +11,12 @@ db.init_app(app)
 app.permanent_session_lifetime = timedelta(days=7)
 
 with app.app_context(): 
-    Topics = Topic.query.all()
+    '''Topics = Topic.query.all()
     Subjects = Subject.query.all()
     Questions = Question.query.all()
-    Users = User.query.all()
+    Users = User.query.all()'''
     Scores = Score.query.all()
-    print("Subject ID, Subject Name")
+    '''print("Subject ID, Subject Name")
     for subject in Subjects:
         print(subject.sid,subject.sname)
     print("Topic ID, Subject ID, Topic Name")
@@ -27,12 +27,11 @@ with app.app_context():
         print(question.qid,question.tid,question.question,question.option1,question.option2,question.option3,question.option4,question.correct)
     print("User ID, Name, Username, Password, Email")
     for user in Users:
-        print(user.uid,user.name,user.username,user.password,user.mail)
+        print(user.uid,user.name,user.username,user.password,user.mail)'''
     print("Score ID, User ID, Topic ID, Score, Time")
     for score in Scores:
         print(score.sid,score.uid,score.tid,score.score,score.time)
     db.create_all()
-
 
 @app.route('/')
 def home():
@@ -259,7 +258,6 @@ def adminedit():
 @app.route("/update_question", methods=["POST"])
 def update_question():
     data = request.get_json()
-    print(data)
     qid = data.get("id")
     question = data.get("question")
     option1 = data.get("option1")
@@ -291,6 +289,21 @@ def delete_question():
     db.session.commit()
     return jsonify({"status": "deleted"})
 
+@app.route('/update_score', methods=['POST'])
+def update_score():
+    if request.method == 'POST':
+        username = session['username']
+        topic = request.args.get('topic')
+        score = int(request.args.get('score'))
+        time = int(request.args.get('time'))
+        user = User.query.filter_by(username=username).first()
+        topic_obj = Topic.query.filter_by(tname=topic).first()
+        if user and topic_obj:
+            new_score = Score(uid=user.uid, tid=topic_obj.tid, score=score, time=time)
+            db.session.add(new_score)
+            db.session.commit()
+            return jsonify({"status": "success"})
+    return jsonify({"status": "error"})
 
 if __name__ == '__main__':
     app.run(debug=True)

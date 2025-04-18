@@ -8,17 +8,30 @@ document.addEventListener("DOMContentLoaded", function () {
     const nextButton = document.getElementById("next-button");
     const prevButton = document.getElementById("prev-button");
     const finishButton = document.getElementById("finish-button");
-
+    const timer = document.getElementById("timer");
+    let marks = 0;
     let currentQuestionIndex = 0;
     let selectedQuestions = [];
     let selectedAnswers = [];
-
+    let time = 0; 
+    let timerInterval = null;
     const saved = JSON.parse(localStorage.getItem("quizProgress")) || {};
     if (saved.subject === subject && saved.topic === topic) {
         currentQuestionIndex = saved.currentQuestionIndex || 0;
         selectedAnswers = saved.selectedAnswers || [];
+        time = saved.time || 0;
     } else {
         localStorage.removeItem("quizProgress");
+    }
+    startTimer();
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            time++;
+            const minutes = Math.floor(time / 60);
+            const seconds = time % 60;
+            timer.innerText = `Time: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+        }, 1000);
     }
 
     fetch(`/get_questions?subject=${subject}&topic=${topic}`)
@@ -30,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 nextButton.style.display = "none";
                 prevButton.style.display = "none";
                 finishButton.style.display = "none";
+                timer.innerHTML = "";
                 return;
             }
 
@@ -54,10 +68,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     finishButton.addEventListener("click", () => {
-        questionContainer.innerHTML = `<p style="color: white;">Quiz Completed! 🎉</p>`;
+        questionContainer.innerHTML = `<p style="color: white;">Quiz Completed! 🎉</p><p>Your score: ${marks}/${selectedQuestions.length}</p>`;
         nextButton.style.display = "none";
         prevButton.style.display = "none";
         finishButton.style.display = "none";
+        timer.innerHTML = "";
+        clearInterval(timerInterval);
+        const url = `/update_score?subject=${subject}&topic=${topic}&score=${marks}&time=${time}`;
+        fetch(url, { method: "POST" })
         localStorage.removeItem("quizProgress");
     });
 
@@ -66,7 +84,8 @@ document.addEventListener("DOMContentLoaded", function () {
             subject,
             topic,
             currentQuestionIndex,
-            selectedAnswers
+            selectedAnswers,
+            time
         }));
     }
 
@@ -92,6 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 saveProgress();
 
                 if (this.id === "option" + q.correct) {
+                    marks++;
                     this.style.backgroundColor = "green";
                 } else {
                     this.style.backgroundColor = "red";
@@ -112,7 +132,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             optionButtons.forEach(btn => btn.disabled = true);
         }
-
         prevButton.style.display = currentQuestionIndex > 0 ? "inline-block" : "none";
         nextButton.style.display = currentQuestionIndex < selectedQuestions.length - 1 ? "inline-block" : "none";
         finishButton.style.display = "inline-block";
