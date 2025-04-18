@@ -5,22 +5,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const quizTitle = document.getElementById("quiz-title");
     const questionContainer = document.getElementById("question-container");
     const nextButton = document.getElementById("next-button");
-    const prevButton = document.getElementById("prev-button");
     let currentQuestionIndex = 0;
     let selectedQuestions = []; 
     let selectedAnswers = [];
     const savedQuestions = JSON.parse(localStorage.getItem("quizProgress")) || [];
     if (savedQuestions.topic == topic && savedQuestions.subject == subject) {
-        currentQuestionIndex = savedQuestions.index || 0;
+        currentQuestionIndex = savedQuestions.currentQuestionIndex || 0;
         selectedAnswers = savedQuestions.selectedAnswers || [];
     }
     else{
-        localStorage.removeItem("savedQuestions");
+        localStorage.removeItem("quizProgress");
     }
+    console.log(savedQuestions);    
     fetch(`/get_questions?subject=${subject}&topic=${topic}`)
     .then(res => res.json())
     .then(data => {
-        console.log(data);
         selectedQuestions = data;
         if (!selectedQuestions.length) {
             questionContainer.innerHTML = `<p style="color: black;">No questions available for ${subject} - ${topic}.</p>`;
@@ -44,24 +43,10 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             questionContainer.innerHTML = `<p style="color: white;">Quiz Completed! 🎉</p>`;
             nextButton.style.display = "none";
+            localStorage.removeItem("quizProgress");
         }
     });
 
-    prevButton.addEventListener("click", () => {
-        currentQuestionIndex--;
-        localStorage.setItem("quizProgress", JSON.stringify({
-            subject,
-            topic,
-            currentQuestionIndex,
-            selectedAnswers
-        }));    
-        if (currentQuestionIndex < selectedQuestions.length) {
-            displayQuestion();
-        } else {
-            questionContainer.innerHTML = `<p style="color: white;">Quiz Completed! 🎉</p>`;
-            nextButton.style.display = "none";
-        }
-    });
 
     function displayQuestion() {
         const q = selectedQuestions[currentQuestionIndex];
@@ -72,7 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
             <button class="option" id="option3">${q.option3}</button>
             <button class="option" id="option4">${q.option4}</button>
         `;
-
         document.querySelectorAll(".option").forEach(button => {
             button.addEventListener("click", function () {
                 const selectedId = selectedAnswers[currentQuestionIndex];
