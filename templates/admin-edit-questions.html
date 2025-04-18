@@ -14,7 +14,7 @@
     <div class="container">
         <div class="questions">
             {% for q in questions %}
-            Question {{ loop.index }}:
+            <div class="qno">Question {{ loop.index }}:</div>
             <div class="question-sample-edit-{{ loop.index }}">
                 <input type="text" id="question-{{ loop.index }}" value="{{ q.question }}" placeholder="Question" required><br><br>
                 <input type="text" id="opt-a-{{ loop.index }}" value="{{ q.option1 }}" placeholder="Option A" required>
@@ -27,8 +27,8 @@
                     <option value="3" {% if q.correct_option == 'C' %}selected{% endif %}>C</option>
                     <option value="4" {% if q.correct_option == 'D' %}selected{% endif %}>D</option>
                 </select><br><br>
-                <button onclick="modifyQuestion({{ q.qid }}, {{ loop.index }})">Modify</button>
-                <button onclick="deleteQuestion({{ q.qid }})">Delete</button>
+                <button id="add-button" onclick="modifyQuestion({{ q.qid }}, {{ loop.index }})">Modify</button>
+                <button id="add-button" onclick="deleteQuestion({{ q.qid }})">Delete</button>
             </div>
             <hr>
             {% endfor %}
