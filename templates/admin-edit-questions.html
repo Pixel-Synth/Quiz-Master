@@ -22,13 +22,13 @@
                 <input type="text" id="opt-c-{{ loop.index }}" value="{{ q.option3 }}" placeholder="Option C" required>
                 <input type="text" id="opt-d-{{ loop.index }}" value="{{ q.option4 }}" placeholder="Option D" required><br><br>
                 <select id="correct-{{ loop.index }}">
-                    <option value="1" {% if q.correct_option == 'A' %}selected{% endif %}>A</option>
-                    <option value="2" {% if q.correct_option == 'B' %}selected{% endif %}>B</option>
-                    <option value="3" {% if q.correct_option == 'C' %}selected{% endif %}>C</option>
-                    <option value="4" {% if q.correct_option == 'D' %}selected{% endif %}>D</option>
+                    <option value="1" {% if q.correct == 1 %}selected{% endif %}>A</option>
+                    <option value="2" {% if q.correct == 2 %}selected{% endif %}>B</option>
+                    <option value="3" {% if q.correct == 3 %}selected{% endif %}>C</option>
+                    <option value="4" {% if q.correct == 4 %}selected{% endif %}>D</option>
                 </select><br><br>
-                <button id="add-button" onclick="modifyQuestion({{ q.qid }}, {{ loop.index }})">Modify</button>
-                <button id="add-button" onclick="deleteQuestion({{ q.qid }})">Delete</button>
+                <button id="edit" class="admin-edit-button" onclick="modifyQuestion({{ q.qid }}, {{ loop.index }})">Modify</button>
+                <button id="delete" class="admin-edit-button" onclick="deleteQuestion({{ q.qid }})">Delete</button>
             </div>
             <hr>
             {% endfor %}

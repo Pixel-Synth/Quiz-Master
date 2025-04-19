@@ -216,7 +216,7 @@ def admin():
     if not session.get('username'):
         return redirect(url_for('home'))
     if session.get('username') != "admin":
-        return redirect(url_for('login'))
+        return redirect(url_for('home'))
     return render_template('admin-homepage.html')
 
 @app.route('/adminadd', methods=['GET', 'POST'])
@@ -251,6 +251,8 @@ def adminedit():
         if not topic_obj:
             return render_template("admin-edit-questions.html", questions=[], subject=subject, topic=topic)
         questions = Question.query.filter_by(tid=topic_obj.tid).all()
+        for question in questions:
+            print(question.qid, question.question, question.option1, question.option2, question.option3, question.option4, question.correct)
         return render_template("admin-edit-questions.html", questions=questions, subject=subject, topic=topic)
     return render_template('index.html')
 
