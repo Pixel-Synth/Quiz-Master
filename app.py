@@ -125,7 +125,6 @@ def get_ques():
     topic = Topic.query.filter(Topic.tname == tname).first()
     if not topic:
         return jsonify([])
-    print(topic.tid)
     if Question.query.count() > 0:
         questions = Question.query.filter(Question.tid == topic.tid).all()
         question_list = []

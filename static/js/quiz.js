@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let time = 0; 
     let timerInterval = null;
     const saved = JSON.parse(localStorage.getItem("quizProgress")) || {};
+
     if (saved.subject === subject && saved.topic === topic) {
         currentQuestionIndex = saved.currentQuestionIndex || 0;
         selectedAnswers = saved.selectedAnswers || [];
@@ -48,6 +49,25 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             quizTitle.textContent = `${subject} - ${topic} Quiz`;
+            if (saved.quizCompleted) {
+                questionContainer.innerHTML = `<p style="color: white;">Quiz Completed! 🎉</p><p>Your score: ${marks}/${saved.selectedAnswers.length}</p>`;
+                nextButton.style.display = "none";
+                prevButton.style.display = "none";
+                finishButton.style.display = "none";
+                timer.innerHTML = "";
+                clearInterval(timerInterval);
+                const homeUrl = document.querySelector(".container").dataset.homeUrl;
+                const exitButton = document.createElement("button");
+                exitButton.textContent = "Exit to Homepage";
+                exitButton.className = "exit-button"; 
+                exitButton.style.marginTop = "20px";
+                exitButton.onclick = function () {
+                    window.location.href = homeUrl;
+                    localStorage.removeItem("quizProgress");
+                };
+                document.querySelector(".container").appendChild(exitButton);
+                return;
+                }
             displayQuestion();
         });
 
@@ -73,13 +93,12 @@ document.addEventListener("DOMContentLoaded", function () {
         prevButton.style.display = "none";
         finishButton.style.display = "none";
         timer.innerHTML = "";
+        saved.quizCompleted = true;
+        localStorage.setItem("quizProgress", JSON.stringify(saved));
         clearInterval(timerInterval);
-        
         percentage = (marks / selectedQuestions.length) * 100;
         const url = `/update_score?subject=${subject}&topic=${topic}&score=${percentage}&time=${time}`;
         fetch(url, { method: "POST" });
-        localStorage.removeItem("quizProgress");
-
         const homeUrl = document.querySelector(".container").dataset.homeUrl;
         const exitButton = document.createElement("button");
         exitButton.textContent = "Exit to Homepage";
@@ -87,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
         exitButton.style.marginTop = "20px";
         exitButton.onclick = function () {
             window.location.href = homeUrl;
+            localStorage.removeItem("quizProgress");
         };
         document.querySelector(".container").appendChild(exitButton);
     });
@@ -97,7 +117,8 @@ document.addEventListener("DOMContentLoaded", function () {
             topic,
             currentQuestionIndex,
             selectedAnswers,
-            time
+            time,
+            quizCompleted: false
         }));
     }
 
