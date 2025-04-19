@@ -74,12 +74,23 @@ document.addEventListener("DOMContentLoaded", function () {
         finishButton.style.display = "none";
         timer.innerHTML = "";
         clearInterval(timerInterval);
+        
         percentage = (marks / selectedQuestions.length) * 100;
         const url = `/update_score?subject=${subject}&topic=${topic}&score=${percentage}&time=${time}`;
-        fetch(url, { method: "POST" })
+        fetch(url, { method: "POST" });
         localStorage.removeItem("quizProgress");
-    });
 
+        const homeUrl = document.querySelector(".container").dataset.homeUrl;
+        const exitButton = document.createElement("button");
+        exitButton.textContent = "Exit to Homepage";
+        exitButton.className = "exit-button"; 
+        exitButton.style.marginTop = "20px";
+        exitButton.onclick = function () {
+            window.location.href = homeUrl;
+        };
+        document.querySelector(".container").appendChild(exitButton);
+    });
+    
     function saveProgress() {
         localStorage.setItem("quizProgress", JSON.stringify({
             subject,
