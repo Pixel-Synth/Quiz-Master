@@ -5,6 +5,6 @@ Retain all the values if error is thrown in profile updation (Last priority)
 Change Layout for Admin Homepage
 Add Logout for Admin (Just make a button with reference like the one in user profile)  ----- done
 Give a back option in Profile Page   ----- done
-Add back option in add/edit question page
+Add back option in add/edit question page ----- done
 Add exit option after finishing quiz
 Make CSS for add page

@@ -212,7 +212,7 @@ def update_email():
         return redirect(url_for('profilepage', success=True, username=username, name=session['name'], mail=email))
     return render_template('index.html')
 
-@app.route('/admin')
+@app.route('/admin', methods = ['GET', 'POST'])
 def admin():
     if not session.get('username'):
         return redirect(url_for('home'))
