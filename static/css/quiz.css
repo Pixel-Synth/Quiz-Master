@@ -11,6 +11,19 @@ body {
     font-weight: 400;
     font-style: normal;
 }
+.exit-button {
+    padding: 15px 30px;
+    font-size: 20px;
+    background: #d06ce1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+.exit-button:hover {
+    background: #b44ec0;
+}
 
 header {
     background: #350149;
