@@ -74,7 +74,8 @@ document.addEventListener("DOMContentLoaded", function () {
         finishButton.style.display = "none";
         timer.innerHTML = "";
         clearInterval(timerInterval);
-        const url = `/update_score?subject=${subject}&topic=${topic}&score=${marks}&time=${time}`;
+        percentage = (marks / selectedQuestions.length) * 100;
+        const url = `/update_score?subject=${subject}&topic=${topic}&score=${percentage}&time=${time}`;
         fetch(url, { method: "POST" })
         localStorage.removeItem("quizProgress");
     });

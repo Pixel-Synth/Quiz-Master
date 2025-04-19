@@ -14,9 +14,9 @@ with app.app_context():
     '''Topics = Topic.query.all()
     Subjects = Subject.query.all()
     Questions = Question.query.all()
-    Users = User.query.all()'''
+    Users = User.query.all()
     Scores = Score.query.all()
-    '''print("Subject ID, Subject Name")
+    print("Subject ID, Subject Name")
     for subject in Subjects:
         print(subject.sid,subject.sname)
     print("Topic ID, Subject ID, Topic Name")
@@ -27,10 +27,10 @@ with app.app_context():
         print(question.qid,question.tid,question.question,question.option1,question.option2,question.option3,question.option4,question.correct)
     print("User ID, Name, Username, Password, Email")
     for user in Users:
-        print(user.uid,user.name,user.username,user.password,user.mail)'''
+        print(user.uid,user.name,user.username,user.password,user.mail)
     print("Score ID, User ID, Topic ID, Score, Time")
     for score in Scores:
-        print(score.sid,score.uid,score.tid,score.score,score.time)
+        print(score.sid,score.uid,score.tid,score.score,score.time)'''
     db.create_all()
 
 @app.route('/')
