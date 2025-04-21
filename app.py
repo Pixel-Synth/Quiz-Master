@@ -3,6 +3,7 @@ from datetime import timedelta
 from flask import Flask, render_template, redirect, url_for, request, session, jsonify
 from email_validator import validate_email, EmailNotValidError
 from model import db, User, Subject, Topic, Question, Score
+from collections import defaultdict
 
 app = Flask(__name__, instance_relative_config=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -217,7 +218,24 @@ def admin():
         return redirect(url_for('home'))
     if session.get('username') != "admin":
         return redirect(url_for('home'))
-    return render_template('admin-homepage.html')
+    scores = Score.query.all()
+
+    topic_scores = defaultdict(list)
+
+    for score in scores:
+        topic_scores[score.tid].append((f"User {score.uid}", score.score))
+
+    topic_data = {
+        str(tid): {
+            "labels": [item[0] for item in values],
+            "scores": [item[1] for item in values]
+        }
+        for tid, values in topic_scores.items()
+    }
+
+    print(topic_data)
+    
+    return render_template('admin-homepage.html', topic_data=topic_data)
 
 @app.route('/adminadd', methods=['GET', 'POST'])
 def adminadd():

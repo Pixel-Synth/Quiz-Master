@@ -9,8 +9,37 @@
         const editURL="{{ url_for('adminedit') }}";
     </script>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/admin-homepage.css') }}">
-    <link rel="icon" href="{{ url_for('static',filename='icons/house-door-fill.svg' ) }}/" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static',filename='icons/house-door-fill.svg' ) }}" type="image/x-icon">
     <script src="{{ url_for('static',filename='js/admin-homepage.js' ) }} " defer></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const topicData = {{ topic_data | tojson }};
+
+            const container = document.getElementById('myPlot');
+
+            Object.entries(topicData).forEach(([tid, data]) => {
+                const chartDiv = document.createElement('div');
+                chartDiv.id = `plot-topic-${tid}`;
+                chartDiv.style.marginBottom = '50px';
+                container.appendChild(chartDiv);
+
+                const trace = {
+                    x: data.labels,
+                    y: data.scores,
+                    type: 'bar'
+                };
+
+                const layout = {
+                    title: `Topic ${tid}`,
+                    xaxis: { title: 'User ID' },
+                    yaxis: { title: 'Score' }
+                };
+
+                Plotly.newPlot(chartDiv.id, [trace], layout);
+            });
+        });
+    </script>
 </head>
 <body>
     <header>
@@ -62,6 +91,7 @@
                 </div>
             </div>
             <h3>Check your student's progress:</h3>
+            <div id="myPlot"></div>
             <div class="bar-plot-finished-vs-unfinished">
                 <p>This should be a bar plot for the finished vs unfinished quizzes for each subject. (Number of students)</p>
             </div>
