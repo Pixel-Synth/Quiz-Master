@@ -36,7 +36,7 @@
         }
 
         .wrapper {
-            width: 90%;
+            width: 750px;
             max-width: 800px;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
@@ -477,25 +477,25 @@
             <h2>Performance Metrics</h2>
             <div class="metrics-container">
                 <div class="metric-card">
-                    <div class="metric-value"> user.metrics.quizzes_taken </div>
+                    <div class="metric-value"> {{ quizzes_taken }} </div>
                     <div class="metric-label">Quizzes Taken</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value"> user.metrics.avg_score %</div>
+                    <div class="metric-value"> {{ avg_score }}% </div>
                     <div class="metric-label">Average Score</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value"> user.metrics.highest_score %</div>
+                    <div class="metric-value"> {{ highest_score }}%</div>
                     <div class="metric-label">Highest Score</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-value"> user.metrics.total_time </div>
+                    <div class="metric-value"> {{ total_time }}</div>
                     <div class="metric-label">Total Time (mins)</div>
                 </div>
             </div>
         </div>
         <br>
-        <div class="profile-section">
+        <div class="profile-section" align="center">
             <a href="{{ url_for('homepage') }}" class="button" style="text-decoration: none;">Back</a>
         </div>
         <br>

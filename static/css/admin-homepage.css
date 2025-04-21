@@ -412,3 +412,50 @@ h3{
 .admin-edit-button:hover {
     background-color: #45a049;
 }
+
+.student-status {
+    margin-top: 40px;
+}
+
+.student-status h4 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.student-status table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    color: black;
+}
+
+.student-status th, .student-status td {
+    padding: 12px 18px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.student-status th {
+    background-color: #5e3a7c;
+    color: white;
+    font-weight: bold;
+}
+
+.student-status tr:hover {
+    background-color: #f1f1f1;
+}
+
+.student-status a {
+    color: #5e3a7c;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.student-status a:hover {
+    text-decoration: underline;
+}

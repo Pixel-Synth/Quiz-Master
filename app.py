@@ -145,7 +145,20 @@ def get_ques():
 @app.route('/profilepage', methods=['GET', 'POST'])
 def profilepage():
     if 'username' in session:
-        return render_template('profilepage.html', success=request.args.get('success'), name=session['name'], username=session['username'], mail=session['email'])
+        user = User.query.filter_by(username=session['username']).first()
+        quizzes_taken = Score.query.filter_by(uid=user.uid).count()
+        total_score = db.session.query(db.func.sum(Score.score)).filter_by(uid=user.uid).scalar() or 0
+        avg_score = total_score / quizzes_taken if quizzes_taken > 0 else 0
+        avg_score = round(avg_score, 2)
+        highest_score = db.session.query(db.func.max(Score.score)).filter_by(uid=user.uid).scalar() or 0
+        total_time = db.session.query(db.func.sum(Score.time)).filter_by(uid=user.uid).scalar() or 0
+        minutes = total_time // 60
+        seconds = total_time % 60
+        if minutes < 10:
+            minutes = f"0{minutes}"
+        if seconds < 10:
+            seconds = f"0{seconds}"
+        return render_template('profilepage.html', success=request.args.get('success'), name=session['name'], username=session['username'], mail=session['email'], quizzes_taken=quizzes_taken, avg_score=avg_score, highest_score=highest_score, total_time=f"{minutes}:{seconds}")
     return redirect(url_for('home'))
 
 @app.route('/update_profile', methods=['GET', 'POST'])
@@ -221,21 +234,39 @@ def admin():
     scores = Score.query.all()
 
     topic_scores = defaultdict(list)
-
+    time_data = defaultdict(lambda: defaultdict(list))
     for score in scores:
-        topic_scores[score.tid].append((f"User {score.uid}", score.score))
+        user = score.user
+        topic = score.topic
+        subject = topic.subject
+
+        topic_scores[topic.tname].append((user.username, score.score))
+        time_data[subject.sname][topic.tname].append(score.time)
 
     topic_data = {
-        str(tid): {
-            "labels": [item[0] for item in values],
-            "scores": [item[1] for item in values]
-        }
-        for tid, values in topic_scores.items()
+        topic: {
+            "labels": [u for u, _ in vals],
+            "scores": [s for _, s in vals]
+        } for topic, vals in topic_scores.items()
     }
 
-    print(topic_data)
-    
-    return render_template('admin-homepage.html', topic_data=topic_data)
+    student_status = [
+        {
+            "username": user.username,
+            "uid": user.uid,
+            "name": user.name,
+            "email": user.mail,
+            "status": f"{len(user.scores)} quizzes completed"
+        }
+        for user in User.query.all()
+    ]
+
+    return render_template(
+        'admin-homepage.html',
+        topic_data=topic_data,
+        time_data=time_data,
+        student_status=student_status
+    )
 
 @app.route('/adminadd', methods=['GET', 'POST'])
 def adminadd():

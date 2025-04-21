@@ -18,12 +18,12 @@
 
             const container = document.getElementById('myPlot');
 
-            Object.entries(topicData).forEach(([tid, data]) => {
+            Object.entries(topicData).forEach(([topic, data]) => {
                 const chartDiv = document.createElement('div');
-                chartDiv.id = `plot-topic-${tid}`;
+                chartDiv.id = `plot-topic-${topic}`;
                 chartDiv.style.marginBottom = '50px';
                 container.appendChild(chartDiv);
-
+                console.log(data.labels, data.scores);
                 const trace = {
                     x: data.labels,
                     y: data.scores,
@@ -31,14 +31,36 @@
                 };
 
                 const layout = {
-                    title: `Topic ${tid}`,
-                    xaxis: { title: 'User ID' },
+                    title: `Topic - ${topic}`,
+                    xaxis: { title: 'Username' },
                     yaxis: { title: 'Score' }
                 };
 
                 Plotly.newPlot(chartDiv.id, [trace], layout);
             });
+            const timeData = {{ time_data | tojson }};
+            for (const [subject, topics] of Object.entries(timeData)) {
+                const container = document.querySelector(`.${subject.toLowerCase()}-box-plots`);
+                if (!container) continue;
+
+                for (const [topic, times] of Object.entries(topics)) {
+                    const chartDiv = document.createElement('div');
+                    chartDiv.style.marginBottom = '40px';
+                    container.appendChild(chartDiv);
+
+                    Plotly.newPlot(chartDiv, [{
+                        y: times,
+                        type: 'box',
+                        name: topic
+                    }], {
+                        title: `${subject} - ${topic}`,
+                        xaxis: { title: 'Topics' },
+                        yaxis: { title: 'Time Taken (seconds)' }
+                    });
+                }
+            };
         });
+        
     </script>
 </head>
 <body>
@@ -93,28 +115,45 @@
             <h3>Check your student's progress:</h3>
             <div id="myPlot"></div>
             <div class="bar-plot-finished-vs-unfinished">
-                <p>This should be a bar plot for the finished vs unfinished quizzes for each subject. (Number of students)</p>
             </div>
             <div class="box-plots">
                 <div class="first-column">
                     <div class="science-box-plots">
-                        <p>Box plots for all subjects under science - box plots of time taken by those who completed.</p>
                     </div>
                     <div class="history-box-plots">
-                        <p>Box plots for all subjects under history - box plots of time taken by those who completed.</p>
                     </div>
                 </div>
                 <div class="second-column">
                     <div class="math-box-plots">
-                        <p>Box plots for all subjects under math - box plots of time taken by those who completed.</p>
                     </div>
                     <div class="technology-box-plots">
-                        <p>Box plots for all subjects under technology - box plots of time taken by those who completed.</p>
                     </div>
                 </div>
             </div>
             <div class="student-status">
-                <p>Print every student in a table and check their status with a link that leads to the student profile.</p>
+                <h4>Student Progress</h4>
+                <table align="center" border="1" class="student-status-table">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Status</th>
+                            <th>E-Mail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in student_status %}
+                        <tr>
+                            <td>{{ student.uid }}</td>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.username }}</td>
+                            <td>{{ student.status }}</td>
+                            <td><a href="mailto:{{ student.email }}">{{ student.email }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
