@@ -8,11 +8,12 @@
     <script src="{{ url_for('static', filename='js/quiz.js') }}" defer></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
 </head>
-<body>
+<body data-already-taken="{{ already_taken|default(false) }}">
     <header>Quiz Time!</header>
     <div class="container" data-home-url="{{ url_for('homepage') }}">
         <h1 id="quiz-title"></h1>
         <div id="timer"></div>
+        <br>
         <div id="question-container"></div>
         <div class="button-group">
             <button id="prev-button">Previous</button>

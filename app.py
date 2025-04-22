@@ -15,6 +15,7 @@ with app.app_context():
     '''Topics = Topic.query.all()
     Subjects = Subject.query.all()
     Questions = Question.query.all()
+    
     Users = User.query.all()
     Scores = Score.query.all()
     print("Subject ID, Subject Name")
@@ -31,6 +32,7 @@ with app.app_context():
         print(user.uid,user.name,user.username,user.password,user.mail)
     print("Score ID, User ID, Topic ID, Score, Time")
     for score in Scores:
+
         print(score.sid,score.uid,score.tid,score.score,score.time)'''
     db.create_all()
 
@@ -111,6 +113,8 @@ def homepage():
 def quiz():
     subject = request.args.get('subject')
     topic = request.args.get('topic')
+    if not subject or not topic:
+        return redirect(url_for('home'))
     return render_template('quiz.html', subject=subject, topic=topic)
 
 @app.route('/logout')
