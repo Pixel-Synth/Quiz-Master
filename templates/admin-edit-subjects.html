@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Subjects</title>
+    <!--script src="{{ url_for('static',filename='js/admin-homepage.js' ) }} " defer></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/admin-homepage.css') }}">
+    <link rel="icon" href="{{ url_for('static',filename='icons/house-door-fill.svg' ) }}" type="image/x-icon"-->
+    <script src="../static/js/admin-homepage.js" defer></script>
+    <link rel="stylesheet" href="../static/css/admin-homepage.css">
+    <link rel="icon" href="../static/icons/house-door-fill.svg" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="spacer"></div>
+            <span class="header-title">Add or Remove Subjects</span>
+            <form action="{{ url_for('logout') }}" method="get">
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </header>
+    <div class="container">
+        <div class="vertical-center">
+            {% if successAddSub %}
+            <p id="fill" style="color: green">{{ successAddSub }}</p>
+            {% endif %}
+            {% if successRemoveSub %}
+            <p id="fill" style="color: red">{{ successRemoveSub }}</p>
+            {% endif %}
+            {% if error %}
+            <p id="fill" style="color: red">{{ error }}</p>
+            {% endif %}
+            <form action="{{ url_for('add_sub') }}" method="post">
+                <button id="add-subject-button" class="modifySub">Add Subject</button>
+                <input name="subject-input" type="text" placeholder="Enter Subject Name" required>
+            </form>
+            <form action="{{ url_for('remove_sub') }}" method="post">
+                <button id="remove-subject-button" class="modifySub">Remove Subject</button>
+                <div class="subject-dropdown">
+                    <select name="subject-select" class="subject-select">
+                        <option value="">Select a Subject</option>
+                        {% for c in courses %}
+                        <option value="{{c.subject}}">{{c.subject}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+            <form action="{{ url_for('admin') }}" method="post">
+                <button type="submit" class="logout-btn">Go Back to Homepage</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

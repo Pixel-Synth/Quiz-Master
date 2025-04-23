@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Topics</title>
+    <!--script src="{{ url_for('static',filename='js/admin-homepage.js' ) }} " defer></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/admin-homepage.css') }}">
+    <link rel="icon" href="{{ url_for('static',filename='icons/house-door-fill.svg' ) }}" type="image/x-icon"-->
+    <script src="../static/js/admin-homepage.js" defer></script>
+    <link rel="stylesheet" href="../static/css/admin-homepage.css">
+    <link rel="icon" href="../static/icons/house-door-fill.svg" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="spacer"></div>
+            <span class="header-title">Add or Remove Topics</span>
+            <form action="{{ url_for('logout') }}" method="get">
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </header>
+    <div class="container">
+        <div class="vertical-center">
+            {% if successAddTopic %}
+            <p id="fill" style="color: green">{{ successAddTopic }}</p>
+            {% endif %}
+            {% if successRemoveTopic %}
+            <p id="fill" style="color: red">{{ successRemoveTopic }}</p>
+            {% endif %} <br> <br>
+            <button id="add-topic-button" class="modifyTopic">Add Topic</button> <br> <br>
+            <input id="topic-input" type="text" placeholder="Enter Topic Name" required>
+            <button id="remove-topic-button" class="modifyTopic">Remove Topic</button> <br> <br>
+            <div class="topic-dropdown">
+                <select id="topic-select" class="topic-select">
+                    <option value="">Select a Topic</option>
+                    {% for c in courses %}
+                    {% for t in c.topics %}
+                    <option value="{{t}}">{{t}}</option>
+                    {% endfor %}
+                    {% endfor %}
+                </select>
+            </div>
+            <form action="{{ url_for('admin') }}" method="post">
+                <button type="submit" class="logout-btn">Go Back to Homepage</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

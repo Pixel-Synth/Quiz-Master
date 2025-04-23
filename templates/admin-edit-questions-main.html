@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Questions Main Page</title>
+    <!--script src="{{ url_for('static',filename='js/admin-homepage.js' ) }} " defer></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/admin-homepage.css') }}">
+    <link rel="icon" href="{{ url_for('static',filename='icons/house-door-fill.svg' ) }}" type="image/x-icon"-->
+    <script src="../static/js/admin-homepage.js" defer></script>
+    <link rel="stylesheet" href="../static/css/admin-homepage.css">
+    <link rel="icon" href="../static/icons/house-door-fill.svg" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="spacer"></div>
+            <span class="header-title">Edit Questions in a subject</span>
+            <form action="{{ url_for('logout') }}" method="get">
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </header>
+    <div class="container">
+        <div class="vertical-center">
+            <div class="set-questions">
+                <p id="fill" style="color: red"></p>
+                <button id="edit-button" class="modify">Edit Questions</button>
+                <button id="add-button" class="modify">Add Questions</button>
+                <div class="categories">
+                    {% for c in courses %}
+                    <div class="category">{{c.subject}}
+                        <div class="dropdown">
+                            {% for t in c.topics %}
+                            <div class="topic" id="{{t}}">{{t}}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div> <br>
+            <form action="{{ url_for('admin') }}" method="post">
+                <button type="submit" class="logout-btn">Go Back to Homepage</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

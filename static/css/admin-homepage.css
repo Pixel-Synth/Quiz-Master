@@ -82,6 +82,38 @@ header {
     background-color: #45a049;
 }
 
+#add-subject-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+}
+
+#add-subject-button:hover {
+    background-color: #45a049;
+}
+
+#add-topic-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+}
+
+#add-ropic-button:hover {
+    background-color: #45a049;
+}
+
 input[type="text"], select {
     padding: 12px;
     font-size: 1rem;
@@ -186,6 +218,27 @@ h3{
 }
 
 #edit-button{
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 20px;
+    background: #d06ce1;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#remove-subject-button{
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 20px;
+    background: #d06ce1;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 12px;
+}
+
+#remove-topic-button{
     display: inline-block;
     padding: 15px 30px;
     font-size: 20px;
