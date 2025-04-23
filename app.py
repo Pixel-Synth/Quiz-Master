@@ -44,7 +44,7 @@ def home():
 def login():
     if 'username' in session:
         username = session['username']
-        return render_template('homepage.html', name=session['name'], username=username)
+        return redirect(url_for('homepage', name=session['name'], username=username))
     
     if request.method == 'POST':
         username = request.form.get('username')
@@ -128,8 +128,17 @@ def register():
 @app.route('/homepage')
 def homepage():
     if 'username' in session:
-        return render_template('homepage.html', name=session['name'], username=session['username'])
-    return render_template('homepage.html')
+        course_list = []
+        Subjects = Subject.query.all()
+        for subject in Subjects:
+            topic_list = {"subject":subject.sname,"topics":[]}
+            Topics = Topic.query.filter(Topic.sid == subject.sid).all()
+            for topic in Topics:
+                topic_list["topics"].append(topic.tname)
+            course_list.append(topic_list)
+        #print(course_list)
+        return render_template('homepage.html', name=session['name'], username=session['username'], courses =course_list)
+    return redirect(url_for('home'))
 
 @app.route('/quiz')
 def quiz():
@@ -286,12 +295,20 @@ def admin():
         }
         for user in User.query.all()
     ]
-
+    course_list = []
+    Subjects = Subject.query.all()
+    for subject in Subjects:
+        topic_list = {"subject":subject.sname,"topics":[]}
+        Topics = Topic.query.filter(Topic.sid == subject.sid).all()
+        for topic in Topics:
+            topic_list["topics"].append(topic.tname)
+        course_list.append(topic_list)
     return render_template(
         'admin-homepage.html',
         topic_data=topic_data,
         time_data=time_data,
-        student_status=student_status
+        student_status=student_status,
+        courses=course_list
     )
 
 @app.route('/adminadd', methods=['GET', 'POST'])
@@ -370,7 +387,8 @@ def update_score():
     if request.method == 'POST':
         username = session['username']
         topic = request.args.get('topic')
-        score = int(request.args.get('score'))
+        score = float(request.args.get('score'))
+        score = round(score, 2)
         time = int(request.args.get('time'))
         user = User.query.filter_by(username=username).first()
         topic_obj = Topic.query.filter_by(tname=topic).first()
@@ -381,6 +399,30 @@ def update_score():
             db.session.commit()
             return jsonify({"status": "success"})
     return jsonify({"status": "error"})
+
+@app.route('/add_sub', methods=['POST'])
+def add_sub():
+    if request.method == 'POST':
+        subject_name = request.form.get('subject-input')
+        existing_subject = Subject.query.filter_by(sname=subject_name).first()
+        if existing_subject:
+            return redirect(url_for('admin', error="Subject "+subject_name+" already exists"))
+        new_subject = Subject(sname=subject_name)
+        db.session.add(new_subject)
+        db.session.commit()
+        return render_template('admin-homepage.html', successAddSub="Successfully Added Subject "+subject_name)
+    return redirect(url_for('home'))
+
+@app.route('/remove_sub', methods=['POST'])
+def remove_sub():
+    if request.method == 'POST':
+        subject_name = request.form.get('subject_name')
+        subject = Subject.query.filter_by(sname=subject_name).first()
+        if subject:
+            db.session.delete(subject)
+            db.session.commit()
+        return redirect(url_for('admin'))
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)

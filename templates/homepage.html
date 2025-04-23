@@ -26,34 +26,15 @@
                 <p id="fill" style="color: red"></p>
                 <a href="#" id="start-button">Start Quiz</a>
                 <div class="categories">
-                    <div class="category">Science
-                        <div class="dropdown">
-                            <div>Physics</div>
-                            <div>Chemistry</div>
-                            <div>Biology</div>
+                    {% for c in courses %}
+                        <div class="category">{{c.subject}}
+                            <div class="dropdown">
+                                {% for t in c.topics %}
+                                    <div class="topic" id="{{t}}">{{t}}</div>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
-                    <div class="category">History
-                        <div class="dropdown">
-                            <div>Ancient</div>
-                            <div>Medieval</div>
-                            <div>Modern</div>
-                        </div>
-                    </div>
-                    <div class="category">Math
-                        <div class="dropdown">
-                            <div>Algebra</div>
-                            <div>Geometry</div>
-                            <div>Calculus</div>
-                        </div>
-                    </div>
-                    <div class="category">Technology
-                        <div class="dropdown">
-                            <div>AI</div>
-                            <div>Programming</div>
-                            <div>Cybersecurity</div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="category" id="profileBtn">Profile</div>

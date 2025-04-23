@@ -40,5 +40,5 @@ class Score(db.Model):
     sid = db.Column(db.Integer, primary_key=True)
     uid = db.Column(db.Integer, db.ForeignKey('user.uid'), nullable=False)
     tid = db.Column(db.Integer, db.ForeignKey('topic.tid'), nullable=False)
-    score = db.Column(db.Integer, nullable=False)
+    score = db.Column(db.Double, nullable=False)
     time = db.Column(db.Integer, default=db.func.current_timestamp())
