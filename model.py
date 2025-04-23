@@ -14,15 +14,15 @@ class Subject(db.Model):
     __tablename__ = "subject"
     sid = db.Column(db.Integer, primary_key=True)
     sname = db.Column(db.String, unique=True, nullable=False)
-    topics = db.relationship('Topic', backref='subject', lazy=True)
+    topics = db.relationship('Topic', backref='subject', lazy=True, cascade="all, delete")
 
 class Topic(db.Model):
     __tablename__ = "topic"
     tid = db.Column(db.Integer, primary_key=True)
     sid = db.Column(db.Integer, db.ForeignKey('subject.sid'), nullable=False)
     tname = db.Column(db.String, nullable=False)
-    questions = db.relationship('Question', backref='topic', lazy=True)
-    scores = db.relationship('Score', backref='topic', lazy=True)
+    questions = db.relationship('Question', backref='topic', lazy=True, cascade="all, delete")
+    scores = db.relationship('Score', backref='topic', lazy=True, cascade="all, delete")
 
 class Question(db.Model):
     __tablename__ = "question"

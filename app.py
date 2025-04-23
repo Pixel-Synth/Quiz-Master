@@ -400,29 +400,88 @@ def update_score():
             return jsonify({"status": "success"})
     return jsonify({"status": "error"})
 
+@app.route('/sub', methods=['GET'])
+def sub():
+    courses = get_courses()
+    return render_template('admin-edit-subjects.html', courses=courses)
+
+@app.route('/topic', methods=['GET'])
+def topic():
+    topics = get_courses()
+    return render_template('admin-edit-topics.html', courses=topics)
+
 @app.route('/add_sub', methods=['POST'])
 def add_sub():
     if request.method == 'POST':
         subject_name = request.form.get('subject-input')
         existing_subject = Subject.query.filter_by(sname=subject_name).first()
         if existing_subject:
-            return redirect(url_for('admin', error="Subject "+subject_name+" already exists"))
+            courses = get_courses()
+            return render_template('admin-edit-subjects.html', error="Subject "+subject_name+" already exists", courses=courses)
         new_subject = Subject(sname=subject_name)
         db.session.add(new_subject)
         db.session.commit()
-        return render_template('admin-homepage.html', successAddSub="Successfully Added Subject "+subject_name)
+        courses = get_courses()    
+        return render_template('admin-edit-subjects.html', successAddSub="Successfully Added Subject "+subject_name, courses=courses)
     return redirect(url_for('home'))
 
 @app.route('/remove_sub', methods=['POST'])
 def remove_sub():
     if request.method == 'POST':
-        subject_name = request.form.get('subject_name')
+        subject_name = request.form.get('subject-select')
+        if not subject_name:
+            courses = get_courses()
+            return render_template('admin-edit-subjects.html', error="No Subject Selected", courses=courses)
         subject = Subject.query.filter_by(sname=subject_name).first()
         if subject:
             db.session.delete(subject)
             db.session.commit()
-        return redirect(url_for('admin'))
+        courses = get_courses()    
+        return render_template('admin-edit-subjects.html', successRemoveSub="Successfully Removed Subject "+subject_name, courses=courses)
     return redirect(url_for('home'))
+
+@app.route('/add_topic', methods=['POST'])
+def add_topic():
+    if request.method == 'POST':
+        topic_name = request.form.get('topic-input')
+        subject_name = request.form.get('subject-select')
+        existing_topic = Topic.query.filter_by(tname=topic_name).first()
+        if existing_topic:
+            return redirect(url_for('admin', error="Topic "+topic_name+" already exists"))
+        subject = Subject.query.filter_by(sname=subject_name).first()
+        if not subject:
+            return redirect(url_for('admin', error="No Subject Selected"))
+        new_topic = Topic(tname=topic_name, sid=subject.sid)
+        db.session.add(new_topic)
+        db.session.commit()
+        return render_template('admin-edit-topics.html', successAddTopic="Successfully Added Topic "+topic_name+" to Subject "+subject_name)
+    return redirect(url_for('home'))
+
+@app.route('/remove_topic', methods=['POST'])
+def remove_topic():
+    if request.method == 'POST':
+        topic_name = request.form.get('topic-select')
+        if not topic_name:
+            return render_template('admin-edit-topics.html', error="No Topic Selected",courses=get_courses())
+        topic = Topic.query.filter_by(tname=topic_name).first()
+        subject = topic.subject
+        if topic:
+            db.session.delete(topic)
+            db.session.commit()
+        return render_template('admin-edit-topics.html', successAddTopic="Successfully Removed Topic "+topic_name+" from Subject "+subject.sname, courses=get_courses())
+    return redirect(url_for('home'))
+
+def get_courses():
+    course_list = []
+    Subjects = Subject.query.all()
+    for subject in Subjects:
+        topic_list = {"subject":subject.sname,"topics":[]}
+        Topics = Topic.query.filter(Topic.sid == subject.sid).all()
+        for topic in Topics:
+            topic_list["topics"].append(topic.tname)
+        course_list.append(topic_list)
+    return course_list
+
 
 if __name__ == '__main__':
     app.run(debug=True)

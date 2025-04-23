@@ -75,51 +75,8 @@
     </header>        
     <div class="container">
         <div class="vertical-center">
-            <h2>Add/Remove Subjects</h2>
-                {% if successAddSub %}
-                    <p id="fill" style="color: green">{{ successAddSub }}</p>
-                {% endif %}
-                {% if successRemoveSub %}
-                    <p id="fill" style="color: red">{{ successRemoveSub }}</p>
-                {% endif %}
-                {% if error %}
-                    <p id="fill" style="color: red">{{ error }}</p>
-                {% endif %}
-                <form action="{{ url_for('add_sub') }}" method="post">
-                    <button id="add-subject-button" class="modifySub">Add Subject</button>
-                    <input name="subject-input" type="text" placeholder="Enter Subject Name" required>
-                </form>
-                <form action="{{ url_for('remove_sub') }}" method="post">
-                    <button id="remove-subject-button" class="modifySub">Remove Subject</button>
-                    <div class="subject-dropdown">
-                        <select name="subject-select" class="subject-select">
-                            <option value="">Select a Subject</option>
-                            {% for c in courses %}
-                                <option value="{{c.subject}}">{{c.subject}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </form>
-            <h2>Add/Remove Topics</h2>
-                {% if successAddTopic %}
-                    <p id="fill" style="color: green">{{ successAddTopic }}</p>
-                {% endif %}
-                {% if successRemoveTopic %}
-                    <p id="fill" style="color: red">{{ successRemoveTopic }}</p>
-                {% endif %}
-                <button id="add-topic-button" class="modifyTopic">Add Topic</button>
-                <input id="topic-input" type="text" placeholder="Enter Topic Name" required>
-                <button id="remove-topic-button" class="modifyTopic">Remove Topic</button>
-                <div class="topic-dropdown">
-                    <select id="topic-select" class="topic-select">
-                        <option value="">Select a Topic</option>
-                        {% for c in courses %}
-                            {% for t in c.topics %}
-                                <option value="{{t}}">{{t}}</option>
-                            {% endfor %}
-                        {% endfor %}
-                    </select>
-                </div>
+            <button id="add-subject-button" class="modifySub" onclick="location.href = '{{ url_for('sub') }}'">Add/Remove Subject</button>
+            <button id="add-topic-button" class="modifySub" onclick="location.href = '{{ url_for('topic') }}'">Add/Remove Topic</button>
             <h2>Add/Edit Questions in your desired subject</h2>
             <div class="set-questions">
                 

@@ -29,21 +29,27 @@
             <p id="fill" style="color: green">{{ successAddTopic }}</p>
             {% endif %}
             {% if successRemoveTopic %}
-            <p id="fill" style="color: red">{{ successRemoveTopic }}</p>
+            <p id="fill" style="color: green">{{ successRemoveTopic }}</p>
+            {% endif %} <br> <br>
+            {% if error %}
+            <p id="fill" style="color: red">{{ error }}</p>
             {% endif %} <br> <br>
             <button id="add-topic-button" class="modifyTopic">Add Topic</button> <br> <br>
             <input id="topic-input" type="text" placeholder="Enter Topic Name" required>
+            <form action="{{ url_for('remove_topic') }}" method="post">
             <button id="remove-topic-button" class="modifyTopic">Remove Topic</button> <br> <br>
-            <div class="topic-dropdown">
-                <select id="topic-select" class="topic-select">
-                    <option value="">Select a Topic</option>
-                    {% for c in courses %}
-                    {% for t in c.topics %}
-                    <option value="{{t}}">{{t}}</option>
-                    {% endfor %}
-                    {% endfor %}
-                </select>
-            </div>
+                <div class="topic-dropdown">
+                    <select name="topic-select" class="topic-select">
+                        <option value="">Select a Topic</option>
+                        {% for c in courses %}
+                        <optgroup label="{{c.subject}}">
+                        {% for t in c.topics %}
+                        <option value="{{t}}">{{t}}</option>
+                        {% endfor %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
             <form action="{{ url_for('admin') }}" method="post">
                 <button type="submit" class="logout-btn">Go Back to Homepage</button>
             </form>
