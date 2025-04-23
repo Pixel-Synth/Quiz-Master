@@ -169,14 +169,28 @@
                     <input  type="email" name="mail" placeholder="Mail ID" required value="{{ mail | default('') }}">
                     <i class="bi bi-envelope-at-fill"></i>
                 </div>
-
+                {% if lengthError %}
+                    <p style="color: red; font-weight: bold; text-align: center;">Password must be at least 8 characters long!</p>
+                {% endif %}
+                {% if specialCharError %}
+                    <p style="color: red; font-weight: bold; text-align: center;">Password must contain at least one special character!</p>
+                {% endif %}
+                {% if numberError %}
+                    <p style="color: red; font-weight: bold; text-align: center;">Password must contain at least one number!</p>
+                {% endif %}
+                {% if upperCaseError %}
+                    <p style="color: red; font-weight: bold; text-align: center;">Password must contain at least one uppercase letter!</p>
+                {% endif %}
+                {% if lowerCaseError %}
+                    <p style="color: red; font-weight: bold; text-align: center;">Password must contain at least one lowercase letter!</p>
+                {% endif %}
                 <div class="input-box password-container">
-                    <input class="password" name="password" type="password" placeholder="Password" required value="{{ password | default('') }}">
+                    <input class="password" name="password" type="password" placeholder="Password" required value="{{ password | default('') }}" maxlength="20">
                     <i class="bi bi-eye-slash eye"></i>
                 </div>
                 
                 <div class="input-box password-container">
-                    <input class="password" name="confirm_password" type="password" placeholder="Confirm Password" required value="{{ confirm_password | default('') }}">
+                    <input class="password" name="confirm_password" type="password" placeholder="Confirm Password" required value="{{ confirm_password | default('') }}" maxlength="20">
                     <i class="bi bi-eye-slash eye"></i>
                 </div>
 

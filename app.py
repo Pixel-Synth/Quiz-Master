@@ -12,7 +12,7 @@ db.init_app(app)
 app.permanent_session_lifetime = timedelta(days=7)
 
 with app.app_context(): 
-    '''Topics = Topic.query.all()
+    Topics = Topic.query.all()
     Subjects = Subject.query.all()
     Questions = Question.query.all()
     
@@ -33,7 +33,7 @@ with app.app_context():
     print("Score ID, User ID, Topic ID, Score, Time")
     for score in Scores:
 
-        print(score.sid,score.uid,score.tid,score.score,score.time)'''
+        print(score.sid,score.uid,score.tid,score.score,score.time)
     db.create_all()
 
 @app.route('/')
@@ -95,7 +95,29 @@ def register():
             valid = validate_email(mail)
         except EmailNotValidError as e:
             return render_template('register.html', mailNotValidError=True, username=username, mail=mail, password=password, name=name, confirm_password=confirm_password)
-        
+        if len(password) < 8:
+            return render_template('register.html', lengthError=True, username=username, mail=mail, password=password, name=name, confirm_password=confirm_password)
+        digit=False
+        upper=False
+        lower=False
+        special=False
+        for i in password:
+            if i.isdigit():
+                digit=True
+            if i.isupper():
+                upper=True
+            if i.islower():
+                lower=True
+            if i in ['@','!','#','$','%','^','&','*']:
+                special=True
+        if not digit:
+            return render_template('register.html', numberError=True, username=username, mail=mail, password=password, name=name, confirm_password=confirm_password)
+        if not upper:
+            return render_template('register.html', upperCaseError=True, username=username, mail=mail, password=password, name=name, confirm_password=confirm_password)
+        if not lower:
+            return render_template('register.html', lowerCaseError=True, username=username, mail=mail, password=password, name=name, confirm_password=confirm_password)
+        if not special:
+            return render_template('register.html', specialCharError=True, username=username, mail=mail, password=password, name=name, confirm_password=confirm_password)
         new_user = User(username=username, mail=mail, password=password, name=name.capitalize())
         db.session.add(new_user)
         db.session.commit()
@@ -353,6 +375,7 @@ def update_score():
         user = User.query.filter_by(username=username).first()
         topic_obj = Topic.query.filter_by(tname=topic).first()
         if user and topic_obj:
+            print(f"User: {user.username}, Topic: {topic_obj.tname}, Score: {score}, Time: {time}")
             new_score = Score(uid=user.uid, tid=topic_obj.tid, score=score, time=time)
             db.session.add(new_score)
             db.session.commit()
