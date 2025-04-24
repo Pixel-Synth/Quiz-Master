@@ -44,7 +44,7 @@ def home():
 def login():
     if 'username' in session:
         username = session['username']
-        return redirect(url_for('homepage', name=session['name'], username=username))
+        return redirect(url_for('homepage', name=session['name'], username=username, courses = get_courses()))
     
     if request.method == 'POST':
         username = request.form.get('username')
@@ -61,7 +61,7 @@ def login():
             session['name'] = user.name  
             session['email'] = user.mail  
             session.permanent = bool(remember) 
-            return render_template('homepage.html', name=user.name, username=username)
+            return render_template('homepage.html', name=user.name, username=username, courses=get_courses())
         else:
             return render_template('login.html', error=True, username=username, password=password)
     
