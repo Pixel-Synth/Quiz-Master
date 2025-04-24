@@ -12,28 +12,6 @@ db.init_app(app)
 app.permanent_session_lifetime = timedelta(days=7)
 
 with app.app_context(): 
-    Topics = Topic.query.all()
-    Subjects = Subject.query.all()
-    Questions = Question.query.all()
-    
-    Users = User.query.all()
-    Scores = Score.query.all()
-    print("Subject ID, Subject Name")
-    for subject in Subjects:
-        print(subject.sid,subject.sname)
-    print("Topic ID, Subject ID, Topic Name")
-    for topic in Topics:
-        print(topic.tid,topic.sid,topic.tname)
-    print("Question ID, Topic ID, Question, Option1, Option2, Option3, Option4, Correct Answer")
-    for question in Questions:
-        print(question.qid,question.tid,question.question,question.option1,question.option2,question.option3,question.option4,question.correct)
-    print("User ID, Name, Username, Password, Email")
-    for user in Users:
-        print(user.uid,user.name,user.username,user.password,user.mail)
-    print("Score ID, User ID, Topic ID, Score, Time")
-    for score in Scores:
-
-        print(score.sid,score.uid,score.tid,score.score,score.time)
     db.create_all()
 
 @app.route('/')
@@ -128,16 +106,7 @@ def register():
 @app.route('/homepage')
 def homepage():
     if 'username' in session:
-        course_list = []
-        Subjects = Subject.query.all()
-        for subject in Subjects:
-            topic_list = {"subject":subject.sname,"topics":[]}
-            Topics = Topic.query.filter(Topic.sid == subject.sid).all()
-            for topic in Topics:
-                topic_list["topics"].append(topic.tname)
-            course_list.append(topic_list)
-        #print(course_list)
-        return render_template('homepage.html', name=session['name'], username=session['username'], courses =course_list)
+        return render_template('homepage.html', name=session['name'], username=session['username'], courses =get_courses())
     return redirect(url_for('home'))
 
 @app.route('/quiz')
@@ -343,8 +312,6 @@ def adminedit():
         if not topic_obj:
             return render_template("admin-edit-questions.html", questions=[], subject=subject, topic=topic)
         questions = Question.query.filter_by(tid=topic_obj.tid).all()
-        for question in questions:
-            print(question.qid, question.question, question.option1, question.option2, question.option3, question.option4, question.correct)
         return render_template("admin-edit-questions.html", questions=questions, subject=subject, topic=topic)
     return render_template('index.html')
 
@@ -393,7 +360,6 @@ def update_score():
         user = User.query.filter_by(username=username).first()
         topic_obj = Topic.query.filter_by(tname=topic).first()
         if user and topic_obj:
-            print(f"User: {user.username}, Topic: {topic_obj.tname}, Score: {score}, Time: {time}")
             new_score = Score(uid=user.uid, tid=topic_obj.tid, score=score, time=time)
             db.session.add(new_score)
             db.session.commit()
