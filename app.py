@@ -445,16 +445,16 @@ def add_topic():
     if request.method == 'POST':
         topic_name = request.form.get('topic-input')
         subject_name = request.form.get('subject-select')
+        if not subject_name:
+            return render_template('admin-edit-topics.html', error="No Subject Selected", courses=get_courses(), topic_name=topic_name)
         existing_topic = Topic.query.filter_by(tname=topic_name).first()
         if existing_topic:
-            return redirect(url_for('admin', error="Topic "+topic_name+" already exists"))
+            return render_template('admin-edit-topics.html', error="Topic "+topic_name+" already exists", courses=get_courses(), topic_name=topic_name)
         subject = Subject.query.filter_by(sname=subject_name).first()
-        if not subject:
-            return redirect(url_for('admin', error="No Subject Selected"))
         new_topic = Topic(tname=topic_name, sid=subject.sid)
         db.session.add(new_topic)
         db.session.commit()
-        return render_template('admin-edit-topics.html', successAddTopic="Successfully Added Topic "+topic_name+" to Subject "+subject_name)
+        return render_template('admin-edit-topics.html', successAddTopic="Successfully Added Topic "+topic_name+" to Subject "+subject_name, courses=get_courses())
     return redirect(url_for('home'))
 
 @app.route('/remove_topic', methods=['POST'])

@@ -34,10 +34,21 @@
             {% if error %}
             <p id="fill" style="color: red">{{ error }}</p>
             {% endif %} <br> <br>
-            <button id="add-topic-button" class="modifyTopic">Add Topic</button> <br> <br>
-            <input id="topic-input" type="text" placeholder="Enter Topic Name" required>
+            <form action="{{ url_for('add_topic') }}" method="post">
+                <button id="add-topic-button" class="modifyTopic">Add Topic</button> <br> <br>
+                <div class="subject-dropdown">
+                    <select name="subject-select" class="subject-select">
+                        <option value="">Select a Subject</option>
+                        {% for c in courses %}
+                        <option value="{{c.subject}}">{{c.subject}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input name="topic-input" type="text" placeholder="Enter Topic Name" value="{{topic_name or ''}}" required>
+            </form>
+            
             <form action="{{ url_for('remove_topic') }}" method="post">
-            <button id="remove-topic-button" class="modifyTopic">Remove Topic</button> <br> <br>
+                <button id="remove-topic-button" class="modifyTopic">Remove Topic</button> <br> <br>
                 <div class="topic-dropdown">
                     <select name="topic-select" class="topic-select">
                         <option value="">Select a Topic</option>
